@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import GlobalStyles from './style/GlobalStyles';
+import GlobalStyles from './styles/globalStyle';
+import { theme } from './styles/theme/theme';
+import { ThemeProvider } from 'styled-components';
 import BaseLayout from './layout/BaseLayout';
 import DashboardEditPage from './pages/DashboardEditPage';
 import DashboardPage from './pages/DashboardPage';
@@ -11,7 +13,7 @@ import SignupPage from './pages/SignupPage';
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
@@ -30,7 +32,7 @@ function App() {
       <Route path="*" element={<Navigate replace to="/not-found" />} /> */}
         </Routes>
       </BrowserRouter>
-    </>
+    </ThemeProvider>
   );
 }
 
