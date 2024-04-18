@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import GlobalStyles from './style/GlobalStyles';
 import BaseLayout from './layout/BaseLayout';
 import DashboardEditPage from './pages/DashboardEditPage';
 import DashboardPage from './pages/DashboardPage';
@@ -10,23 +11,26 @@ import SignupPage from './pages/SignupPage';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
-        <Route element={<BaseLayout />}>
-          <Route path="mydashboard" element={<MydashboardPage />} />
-          <Route path="dashboard/:dashboardid">
-            <Route index element={<DashboardPage />} />
-            <Route path="edit" element={<DashboardEditPage />} />
+    <>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignupPage />} />
+          <Route element={<BaseLayout />}>
+            <Route path="mydashboard" element={<MydashboardPage />} />
+            <Route path="dashboard/:dashboardid">
+              <Route index element={<DashboardPage />} />
+              <Route path="edit" element={<DashboardEditPage />} />
+            </Route>
+            <Route path="mypage" element={<MyPage />} />
           </Route>
-          <Route path="mypage" element={<MyPage />} />
-        </Route>
-        {/* <Route path="/not-found" element={<NoPage />} />
-    <Route path="*" element={<Navigate replace to="/not-found" />} /> */}
-      </Routes>
-    </BrowserRouter>
+          {/* <Route path="/not-found" element={<NoPage />} />
+      <Route path="*" element={<Navigate replace to="/not-found" />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
