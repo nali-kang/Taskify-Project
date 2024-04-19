@@ -68,6 +68,10 @@ const resetCss = css`
   th {
     padding: 0;
   }
+
+  * {
+    font-family: 'Pretendard', sans-serif;
+  }
 `;
 
 export default resetCss;
