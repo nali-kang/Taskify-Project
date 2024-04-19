@@ -5,5 +5,5 @@ export default {
   useTabs: false,
   endOfLine: 'lf',
   tabWidth: 2,
-  printWidth: 100,
+  printWidth: 100
 };
