@@ -1,4 +1,4 @@
-const theme = {
+export const theme = {
   // black이랑 gray는 앞에 색 두글자로 분류
   // violet 8%는 8p로 분류
   // ex> background-color: ${({ theme }) => theme.color.white};
@@ -24,5 +24,3 @@ const theme = {
     pink: '#E876EA',
   },
 };
-
-export default { theme };
