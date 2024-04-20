@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import GlobalStyles from './styles/globalStyle';
+import GlobalStyles from './styles/GlobalStyles';
 import './styles/fonts/font.css';
 import { theme } from './styles/theme/theme';
 import { ThemeProvider } from 'styled-components';
 import BaseLayout from './layout/BaseLayout';
+import MainLayout from './layout/MainLayout';
 import DashboardEditPage from './pages/DashboardEditPage';
 import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
@@ -18,7 +19,9 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<MainPage />} />
+          </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
           <Route element={<BaseLayout />}>
