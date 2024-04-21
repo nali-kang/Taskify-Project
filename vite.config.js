@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from '@svgr/rollup';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), svgr()],
   build: {
     // 프로덕션 빌드된 파일들이 생성될 디렉토리를 지정
     outDir: 'dist',
@@ -15,5 +16,16 @@ export default defineConfig({
     cssCodeSplit: true,
     // 코드를 작은 조각으로 나누어 로딩 성능 최적화(2,000 바이트 초과 시 경고)
     chunkSizeWarningLimit: 2000,
+  },
+  resolve: {
+    alias: [
+      { find: '@', replacement: '/src' },
+      { find: '@hooks', replacement: '/src/hooks' },
+      { find: '@components', replacement: '/src/components' },
+      { find: '@pages', replacement: '/src/Pages' },
+      { find: '@layout', replacement: '/src/layout' },
+      { find: '@images', replacement: '/src/assets/images' },
+      { find: '@constants', replacement: '/src/constants' },
+    ],
   },
 });
