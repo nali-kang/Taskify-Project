@@ -8,7 +8,7 @@ const SignIn = () => {
       <div className="container__box">
         <h1>
           <Link to="/">
-            <img src="/src/assets/image/logos/largeLogo.svg" alt="랜딩 페이지로 이동하려면 클릭" />
+            <img src="/src/assets/images/largeLogo.svg" alt="랜딩 페이지로 이동하려면 클릭" />
           </Link>
         </h1>
         <h3>오늘도 만나서 반가워요!</h3>
