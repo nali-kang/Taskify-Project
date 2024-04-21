@@ -25,6 +25,7 @@ export default defineConfig({
       { find: '@pages', replacement: '/src/Pages' },
       { find: '@layout', replacement: '/src/layout' },
       { find: '@images', replacement: '/src/assets/images' },
+      { find: '@icon', replacement: '/src/assets/icon' },
       { find: '@constants', replacement: '/src/constants' },
     ],
   },
