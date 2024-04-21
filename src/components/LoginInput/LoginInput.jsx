@@ -35,9 +35,9 @@ const LoginInput = ({
             />
             <button type="button" onClick={handleClickEyeToggle}>
               {isEyeOff ? (
-                <img src="/src/assets/image/icons/eyeOnIcon.svg" alt="비밀번호 보려면 클릭" />
+                <img src="/src/assets/icon/eyeOnIcon.svg" alt="비밀번호 보려면 클릭" />
               ) : (
-                <img src="/src/assets/image/icons/eyeOffIcon.svg" alt="비밀번호 숨기려면 클릭" />
+                <img src="/src/assets/icon/eyeOffIcon.svg" alt="비밀번호 숨기려면 클릭" />
               )}
             </button>
           </>
