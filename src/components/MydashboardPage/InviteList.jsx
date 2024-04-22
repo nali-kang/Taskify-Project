@@ -4,7 +4,7 @@ import { useInfinityRequest, useMutationRequest } from '@hooks/useRequest';
 import ListTable from '../common/ListTable';
 import { queryClient } from '../../App';
 
-const DEFAULT_INVITE_LIST_SIZE = 3;
+const DEFAULT_INVITE_LIST_SIZE = 7;
 
 const InviteList = () => {
   const column = [
@@ -45,10 +45,13 @@ const InviteList = () => {
   ];
 
   const [inviteList, setInviteList] = useState([]);
+  const [title, setTitle] = useState('');
 
   const { data, fetchNextPage, setTarget } = useInfinityRequest({
-    queryKey: 'invitations',
-    requestParam: { size: DEFAULT_INVITE_LIST_SIZE },
+    queryKey: ['invitations', title],
+    requestParam: title
+      ? { size: DEFAULT_INVITE_LIST_SIZE, title }
+      : { size: DEFAULT_INVITE_LIST_SIZE },
     requestPath: '/invitations',
     method: 'GET',
   });
@@ -77,7 +80,7 @@ const InviteList = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      queryClient.resetQueries({ queryKey: ['invitations'], exact: true });
+      queryClient.resetQueries({ queryKey: ['invitations', ''], exact: true });
       setInviteList([]);
       fetchNextPage();
     }
@@ -91,7 +94,16 @@ const InviteList = () => {
       <h1 className="invite_title">초대받은 대시보드</h1>
       <div className="invite_search_box">
         <img src="/src/assets/icon/search_icon.svg" />
-        <input className="invite_search" placeholder="검색" />
+        <input
+          className="invite_search"
+          placeholder="검색"
+          onChange={(e) => {
+            setTitle(e.target.value);
+            queryClient.resetQueries({ queryKey: ['invitations', e.target.value], exact: true });
+            setInviteList([]);
+            fetchNextPage();
+          }}
+        />
       </div>
       <ListTable column={column} data={inviteList} target={setTarget} />
     </InviteContainer>
