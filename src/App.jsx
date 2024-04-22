@@ -13,6 +13,7 @@ import MainPage from './pages/MainPage';
 import MydashboardPage from './pages/MydashboardPage';
 import MyPage from './pages/MyPage';
 import SignupPage from './pages/SignupPage';
+import ModalPage from './pages/ModalPage';
 
 export const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ function App() {
               </Route>
               <Route path="mypage" element={<MyPage />} />
             </Route>
+            <Route path="modal" element={<ModalPage />} />
             {/* <Route path="/not-found" element={<NoPage />} />
       <Route path="*" element={<Navigate replace to="/not-found" />} /> */}
           </Routes>
