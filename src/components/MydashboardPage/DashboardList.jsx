@@ -87,8 +87,8 @@ const DashboardCard = styled.button`
   width: 20.75rem;
   height: 4.375rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
-  background: var(--white-white_FFFFFF, #fff);
+  border: 1px solid ${({ theme }) => theme.color.gray_D9};
+  background: ${({ theme }) => theme.color.white};
   display: flex;
   align-items: center;
   padding: 0 1.25rem;
@@ -103,7 +103,7 @@ const DashboardCard = styled.button`
       justify-content: center;
       align-items: center;
       border-radius: 0.25rem;
-      background: var(--violet-violet-8, #f1effd);
+      background: ${({ theme }) => theme.color.violet_8p};
     }
   }
   &.dashboard {

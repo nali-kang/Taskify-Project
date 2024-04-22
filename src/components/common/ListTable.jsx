@@ -70,7 +70,7 @@ const TableContainer = styled.div`
       .header_column {
         width: calc(100% / ${(props) => props.length});
         padding: 1.5rem 1.5rem 0 1.5rem;
-        color: var(--gray-gray_9FA6B2, #9fa6b2);
+        color: ${({ theme }) => theme.color.gray_9F};
         font-family: Pretendard;
         font-size: 1rem;
         font-style: normal;
@@ -82,7 +82,7 @@ const TableContainer = styled.div`
       margin-top: 2.93rem;
       .table_row {
         height: 4.5rem;
-        border-bottom: 1px solid var(--gray-gray_EEEEEE, #eee);
+        border-bottom: 1px solid ${({ theme }) => theme.color.gray_EE};
         &:last-child {
           border: none;
         }

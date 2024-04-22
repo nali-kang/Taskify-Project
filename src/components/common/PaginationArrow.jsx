@@ -57,8 +57,8 @@ const PagingArrowContainer = styled.div`
   .page_arrow {
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
-    background: var(--white-white_FFFFFF, #fff);
+    border: 1px solid ${({ theme }) => theme.color.gray_D9};
+    background: ${({ theme }) => theme.color.white};
     padding: 0.75rem;
     &.left {
       border-radius: 0.25rem 0rem 0rem 0.25rem;
@@ -68,7 +68,7 @@ const PagingArrowContainer = styled.div`
     }
   }
   .page_info {
-    color: var(--black-black_333236, #333236);
+    color: ${({ theme }) => theme.color.black_33};
     font-size: 0.875rem;
     font-weight: 400;
     margin-right: 1rem;

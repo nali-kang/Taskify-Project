@@ -116,10 +116,10 @@ const InviteContainer = styled.section`
   width: 63.875rem;
   max-height: 37.5rem;
   border-radius: 0.5rem;
-  background: var(--white-white_FFFFFF, #fff);
+  background: ${({ theme }) => theme.color.white};
 
   .invite_title {
-    color: var(--black-black_333236, #333236);
+    color: ${({ theme }) => theme.color.black_33};
     font-size: 1.5rem;
     font-weight: 700;
     line-height: normal;
@@ -130,8 +130,8 @@ const InviteContainer = styled.section`
     width: 60.375rem;
     height: 2.5rem;
     border-radius: 0.375rem;
-    border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
-    background: var(--white-white_FFFFFF, #fff);
+    border: 1px solid ${({ theme }) => theme.color.gray_D9};
+    background: ${({ theme }) => theme.color.white};
     margin-left: 1.75rem;
     padding: 0.5rem 1rem;
     display: flex;
@@ -143,11 +143,11 @@ const InviteContainer = styled.section`
       font-size: 1rem;
       font-weight: 400;
       line-height: normal;
-      background: var(--white-white_FFFFFF, #fff);
+      background: ${({ theme }) => theme.color.white};
       border: none;
-      color: #333236;
+      color: ${({ theme }) => theme.color.black_33};
       ::placeholder {
-        color: var(--gray-gray_9FA6B2, #9fa6b2);
+        color: ${({ theme }) => theme.color.gray_9F};
       }
       &:focus-visible {
         outline: none;
@@ -176,14 +176,14 @@ const InviteAcceptedButton = styled.div`
 
   .accept_button {
     ${InviteButton};
-    background: var(--violet-violet_5534DA, #5534da);
-    color: var(--white-white_FFFFFF, #fff);
+    background: ${({ theme }) => theme.color.violet};
+    color: ${({ theme }) => theme.color.white};
   }
 
   .reject_button {
     ${InviteButton};
-    border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
-    background: var(--white-white_FFFFFF, #fff);
-    color: var(--violet-violet_5534DA, #5534da);
+    border: 1px solid ${({ theme }) => theme.color.gray_D9};
+    background: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.color.violet};
   }
 `;

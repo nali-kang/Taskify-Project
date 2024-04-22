@@ -48,7 +48,7 @@ const SettingSection = styled.section`
   gap: 2.25rem;
   padding-bottom: 10rem;
   .setting_title {
-    color: var(--white-white_FFFFFF, #fff);
+    color: ${({ theme }) => theme.color.white};
     font-family: Pretendard;
     font-size: 1.75rem;
     font-weight: 700;
@@ -71,12 +71,12 @@ const ImageCard = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
-    background: var(--black-black_4B4B4B, #4b4b4b);
+    background: ${({ theme }) => theme.color.black_4B};
   }
   .text_section {
     height: 7.75rem;
     border-radius: 0rem 0rem 0.5rem 0.5rem;
-    background: var(--black-black_171717, #171717);
+    background: ${({ theme }) => theme.color.black_17};
     padding: 2.06rem 2rem;
     display: flex;
     flex-direction: column;
