@@ -1,7 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { useGetRequest, useMutationRequest } from '../../hooks/useRequest';
+import { useInfinityRequest, useMutationRequest } from '@hooks/useRequest';
 import ListTable from '../common/ListTable';
+import { queryClient } from '../../App';
+
+const DEFAULT_INVITE_LIST_SIZE = 3;
 
 const InviteList = () => {
   const column = [
@@ -41,10 +44,21 @@ const InviteList = () => {
     },
   ];
 
-  const { data, request } = useGetRequest({
-    requestPath: '/invitations',
+  const [inviteList, setInviteList] = useState([]);
+
+  const { data, fetchNextPage, setTarget } = useInfinityRequest({
     queryKey: 'invitations',
+    requestParam: { size: DEFAULT_INVITE_LIST_SIZE },
+    requestPath: '/invitations',
+    method: 'GET',
   });
+
+  useEffect(() => {
+    if (data?.pages.length > 0) {
+      setInviteList([...inviteList, ...data.pages[data.pages.length - 1].invitations]);
+    }
+    data?.pages?.invitations;
+  }, [data]);
 
   const {
     request: mutaionRequest,
@@ -58,12 +72,14 @@ const InviteList = () => {
   });
 
   useEffect(() => {
-    request({});
+    fetchNextPage();
   }, []);
 
   useEffect(() => {
     if (isSuccess) {
-      request({});
+      queryClient.resetQueries({ queryKey: ['invitations'], exact: true });
+      setInviteList([]);
+      fetchNextPage();
     }
     if (isError) {
       alert(error);
@@ -77,7 +93,7 @@ const InviteList = () => {
         <img src="/src/assets/icon/search_icon.svg" />
         <input className="invite_search" placeholder="검색" />
       </div>
-      <ListTable column={column} data={data?.invitations} />
+      <ListTable column={column} data={inviteList} target={setTarget} />
     </InviteContainer>
   );
 };
@@ -89,6 +105,7 @@ const InviteContainer = styled.section`
   max-height: 37.5rem;
   border-radius: 0.5rem;
   background: var(--white-white_FFFFFF, #fff);
+
   .invite_title {
     color: var(--black-black_333236, #333236);
     font-size: 1.5rem;
@@ -96,6 +113,7 @@ const InviteContainer = styled.section`
     line-height: normal;
     padding: 2rem 1.75rem 1.25rem;
   }
+
   .invite_search_box {
     width: 60.375rem;
     height: 2.5rem;
@@ -107,6 +125,7 @@ const InviteContainer = styled.section`
     display: flex;
     gap: 0.5rem;
     align-items: center;
+
     .invite_search {
       width: 100%;
       font-size: 1rem;
@@ -142,11 +161,13 @@ const InviteButton = css`
 const InviteAcceptedButton = styled.div`
   display: flex;
   gap: 0.625rem;
+
   .accept_button {
     ${InviteButton};
     background: var(--violet-violet_5534DA, #5534da);
     color: var(--white-white_FFFFFF, #fff);
   }
+
   .reject_button {
     ${InviteButton};
     border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);

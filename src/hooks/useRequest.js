@@ -1,7 +1,8 @@
 import { requestHandler } from '../common/apis/axios';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { queryClient } from '../App';
+import { useIntersectionObserver } from './useIntersectionObserver';
 
 export const useGetRequest = ({ queryKey, requestAction = requestHandler, requestPath }) => {
   const params = useRef(null);
@@ -48,4 +49,32 @@ export const useMutationRequest = ({
       );
     },
   };
+};
+
+export const useInfinityRequest = ({
+  queryKey,
+  requestParam,
+  requestAction = requestHandler,
+  requestPath,
+  method,
+}) => {
+  const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: typeof queryKey === 'string' ? [queryKey] : queryKey,
+    queryFn: ({ pageParam }) =>
+      requestAction({
+        param: pageParam ? { ...requestParam, cursorId: pageParam } : { ...requestParam },
+        path: requestPath,
+        method,
+      }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.cursorId;
+    },
+  });
+
+  const { setTarget } = useIntersectionObserver({
+    hasNextPage,
+    fetchNextPage,
+  });
+
+  return { data, isLoading, fetchNextPage, setTarget };
 };

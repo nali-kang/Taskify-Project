@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-const ListTable = ({ column, data }) => {
+const ListTable = ({ column, data, target }) => {
   return (
     <>
       <TableContainer length={column.length}>
@@ -31,6 +31,7 @@ const ListTable = ({ column, data }) => {
               <></>
             )}
           </tbody>
+          <div ref={target} className="target" />
         </table>
       </TableContainer>
     </>
@@ -89,6 +90,9 @@ const TableContainer = styled.div`
       .table_column {
         padding-left: 1.5rem;
       }
+    }
+    .target {
+      height: 1px;
     }
   }
 `;
