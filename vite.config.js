@@ -22,7 +22,7 @@ export default defineConfig({
       { find: '@', replacement: '/src' },
       { find: '@hooks', replacement: '/src/hooks' },
       { find: '@components', replacement: '/src/components' },
-      { find: '@pages', replacement: '/src/Pages' },
+      { find: '@pages', replacement: '/src/pages' },
       { find: '@layout', replacement: '/src/layout' },
       { find: '@images', replacement: '/src/assets/images' },
       { find: '@icon', replacement: '/src/assets/icon' },
