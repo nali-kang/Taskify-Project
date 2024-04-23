@@ -7,7 +7,7 @@ const SelectColorButton = ({ color, setColor }) => {
       {COLOR_LIST.map((e) => {
         return (
           <ColorButton color={e} key={e} onClick={() => setColor(e)}>
-            {color === e ? <>1</> : <></>}
+            {color === e ? <img src="/src/assets/icon/check_icon.svg" /> : <></>}
           </ColorButton>
         );
       })}
@@ -29,6 +29,9 @@ const ColorButton = styled.button`
   padding: 0;
   background-color: ${(props) => props.color};
   border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:focus,
   &:focus-visible {
     outline: none;
