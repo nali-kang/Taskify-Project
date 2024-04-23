@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ReactComponent as ArrowLeft } from '@icon/arrow_left.svg';
 import styled from 'styled-components';
 import DashboardSetting from '../components/DashboardEdit/DashboardSetting';
+import MemberList from '../components/DashboardEdit/MemberList';
 
 const DashboardEditPage = () => {
   const { dashboardid } = useParams();
@@ -13,6 +14,7 @@ const DashboardEditPage = () => {
         <span>돌아가기</span>
       </Link>
       <DashboardSetting id={dashboardid} />
+      <MemberList id={dashboardid} />
       {dashboardid}
     </DashboardEditContainer>
   );

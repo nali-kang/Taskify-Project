@@ -31,7 +31,7 @@ const ListTable = ({ column, data, target }) => {
               <></>
             )}
           </tbody>
-          <div ref={target} className="target" />
+          {target && <div ref={target} className="target" />}
         </table>
       </TableContainer>
     </>
