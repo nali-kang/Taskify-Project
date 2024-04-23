@@ -31,7 +31,7 @@ const ListTable = ({ column, data, target }) => {
               <></>
             )}
           </tbody>
-          <div ref={target} className="target" />
+          {target ? <div ref={target} className="target" /> : <></>}
         </table>
       </TableContainer>
     </>
@@ -94,5 +94,23 @@ const TableContainer = styled.div`
     .target {
       height: 1px;
     }
+  }
+`;
+export const DeleteButton = styled.div`
+  width: 100%;
+  padding-right: 1.75rem;
+  .delete_button {
+    float: right;
+    display: flex;
+    width: 5.25rem;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.25rem;
+    border: 1px solid ${({ theme }) => theme.color.gray_D9};
+    background: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.color.violet};
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 `;
