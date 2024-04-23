@@ -107,9 +107,9 @@ export const DeleteButton = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 0.25rem;
-    border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
-    background: var(--white-white_FFFFFF, #fff);
-    color: var(--violet-violet_5534DA, #5534da);
+    border: 1px solid ${({ theme }) => theme.color.gray_D9};
+    background: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.color.violet};
     font-size: 0.875rem;
     font-weight: 500;
   }

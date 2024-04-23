@@ -73,7 +73,7 @@ const SettingContainer = styled.article`
   width: 38.75rem;
   height: 16rem;
   border-radius: 0.5rem;
-  background: var(--white-white_FFFFFF, #fff);
+  background: ${({ theme }) => theme.color.white};
   margin-top: 1.56rem;
   padding: 1.75rem;
   .setting_title {
@@ -81,7 +81,7 @@ const SettingContainer = styled.article`
     align-items: center;
     justify-content: space-between;
     h2 {
-      color: var(--black-black_333236, #333236);
+      color: ${({ theme }) => theme.color.black_33};
       font-size: 1.25rem;
       font-weight: 700;
       line-height: normal;
@@ -94,18 +94,18 @@ const SettingContainer = styled.article`
     margin-top: 2.12rem;
     margin-bottom: 1.5rem;
     h3 {
-      color: var(--black-black_333236, #333236);
+      color: ${({ theme }) => theme.color.black_33};
       font-size: 1.125rem;
       font-weight: 500;
       line-height: normal;
     }
     .name_setting {
       border-radius: 0.375rem;
-      border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
-      background: var(--white-white_FFFFFF, #fff);
+      border: 1px solid ${({ theme }) => theme.color.gary_D9};
+      background: ${({ theme }) => theme.color.white};
       height: 3rem;
       padding: 0.94rem 1rem 0.88rem 1rem;
-      color: var(--black-black_333236, #333236);
+      color: ${({ theme }) => theme.color.black_33};
       font-size: 1rem;
       font-weight: 400;
       line-height: normal;
@@ -121,7 +121,7 @@ const SettingContainer = styled.article`
       justify-content: center;
       align-items: center;
       border-radius: 0.25rem;
-      background: var(--violet-violet_5534DA, #5534da);
+      background: ${({ theme }) => theme.color.violet};
       text-align: center;
       font-size: 0.875rem;
       font-weight: 500;

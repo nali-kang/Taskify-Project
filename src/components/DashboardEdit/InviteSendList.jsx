@@ -101,7 +101,7 @@ const SendListContainer = styled.article`
   height: 29.8125rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
-  background: var(--white-white_FFFFFF, #fff);
+  background: ${({ theme }) => theme.color.white};
   margin-top: 0.75rem;
   .send_header {
     display: flex;
@@ -128,8 +128,8 @@ const SendListContainer = styled.article`
         width: 6.5625rem;
         height: 2rem;
         border-radius: 0.25rem;
-        background: var(--violet-violet_5534DA, #5534da);
-        color: var(--white-white_FFFFFF, #fff);
+        background: ${({ theme }) => theme.color.violet};
+        color: ${({ theme }) => theme.color.white};
         font-size: 0.8rem;
         font-weight: 500;
       }

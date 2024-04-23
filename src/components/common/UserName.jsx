@@ -30,7 +30,7 @@ const NameContents = styled.div`
     font-weight: 600;
   }
   .nickname_text {
-    color: var(--black-black_333236, #333236);
+    color: 1px solid ${({ theme }) => theme.color.black_33};
     font-size: 1rem;
     font-weight: 400;
   }

@@ -97,7 +97,7 @@ const MemberListContainer = styled.article`
   height: 25.25rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
-  background: var(--white-white_FFFFFF, #fff);
+  background: ${({ theme }) => theme.color.white};
   margin-top: 0.75rem;
   .member_header {
     display: flex;
