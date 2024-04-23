@@ -3,6 +3,7 @@ import { ReactComponent as ArrowLeft } from '@icon/arrow_left.svg';
 import styled from 'styled-components';
 import DashboardSetting from '../components/DashboardEdit/DashboardSetting';
 import MemberList from '../components/DashboardEdit/MemberList';
+import InviteSendList from '../components/DashboardEdit/InviteSendList';
 
 const DashboardEditPage = () => {
   const { dashboardid } = useParams();
@@ -15,7 +16,7 @@ const DashboardEditPage = () => {
       </Link>
       <DashboardSetting id={dashboardid} />
       <MemberList id={dashboardid} />
-      {dashboardid}
+      <InviteSendList id={dashboardid} />
     </DashboardEditContainer>
   );
 };
