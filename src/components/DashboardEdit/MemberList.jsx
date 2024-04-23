@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import ListTable from '../common/ListTable';
+import ListTable, { DeleteButton } from '../common/ListTable';
 import PaginationArrow from '@components/common/PaginationArrow';
 import { useGetRequest, useMutationRequest } from '../../hooks/useRequest';
 import { useEffect } from 'react';
+import UserName from '../common/UserName';
 
 const MEMBER_SIZE = 4;
 
@@ -14,8 +15,8 @@ const MemberList = ({ id }) => {
     {
       title: '이름',
       dataIndex: 'nickname',
-      render: (value) => {
-        return <span>{value}</span>;
+      render: (value, record) => {
+        return <UserName email={record.email} nickname={value} />;
       },
     },
     {
@@ -27,7 +28,7 @@ const MemberList = ({ id }) => {
             <button
               className="delete_button"
               onClick={() => {
-                mutaionRequest({ memberId: value });
+                mutationRequest({ memberId: value });
               }}
             >
               삭제
@@ -44,7 +45,7 @@ const MemberList = ({ id }) => {
   });
 
   const {
-    request: mutaionRequest,
+    request: mutationRequest,
     isSuccess,
     isError,
     error,
@@ -112,24 +113,5 @@ const MemberListContainer = styled.article`
       font-weight: 700;
       line-height: normal;
     }
-  }
-`;
-
-const DeleteButton = styled.div`
-  width: 100%;
-  padding-right: 1.75rem;
-  .delete_button {
-    float: right;
-    display: flex;
-    width: 5.25rem;
-    height: 2rem;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.25rem;
-    border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
-    background: var(--white-white_FFFFFF, #fff);
-    color: var(--violet-violet_5534DA, #5534da);
-    font-size: 0.875rem;
-    font-weight: 500;
   }
 `;
