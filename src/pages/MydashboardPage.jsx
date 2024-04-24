@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import DashboardList from '@components/MydashboardPage/DashboardList';
-import InviteList from '../components/MydashboardPage/InviteList';
+import InviteList from '@components/MydashboardPage/InviteList';
 
 const MydashboardPage = () => {
   return (
