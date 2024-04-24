@@ -34,6 +34,7 @@ const DashboardList = () => {
   const [modalInput, setModalInput] = useState('');
 
   const {
+    data: dashboardData,
     request: dashboardRequest,
     isSuccess: dashboardIsSuccess,
     isError: dashboardIsError,
@@ -56,11 +57,10 @@ const DashboardList = () => {
 
   useEffect(() => {
     if (dashboardIsSuccess) {
-      setPage(1);
-      request({ navigationMethod: 'pagination', page: 1, size: DASHBOARD_SIZE });
       setColor('');
       setModalInput('');
       closeModal();
+      navigate(`/dashboard/${dashboardData?.id}`);
     }
     if (dashboardIsError) {
       alert(dashboardError?.response?.data?.message ?? '오류가 발생했습니다.');
