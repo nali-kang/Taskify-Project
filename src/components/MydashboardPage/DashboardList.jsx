@@ -1,15 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useGetRequest } from '@hooks/useRequest';
 import { ReactComponent as ArrowRight } from '@icon/arrow_right.svg';
 import PaginationArrow from '@components/common/PaginationArrow';
+import useBooleanState from '../../hooks/useBooleanState';
+import BaseModal from '../common/Modal';
+import SelectColorButton from '../common/SelectColorButton';
+import { useMutationRequest } from '../../hooks/useRequest';
 
 const DASHBOARD_SIZE = 5;
 
 const DashboardList = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const [isModalOpen, openModal, closeModal] = useBooleanState();
+  const [color, setColor] = useState('');
 
   const { data, request } = useGetRequest({
     requestPath: '/dashboards',
@@ -24,10 +30,72 @@ const DashboardList = () => {
     request({ navigationMethod: 'pagination', page, size: DASHBOARD_SIZE });
   }, [page]);
 
+  // modal setting
+  const [modalInput, setModalInput] = useState('');
+
+  const {
+    data: dashboardData,
+    request: dashboardRequest,
+    isSuccess: dashboardIsSuccess,
+    isError: dashboardIsError,
+    error: dashboardError,
+  } = useMutationRequest({
+    requestPath: `/dashboards`,
+    queryKey: ['dashboard', 'create'],
+    method: 'POST',
+  });
+
+  const sendInvite = useCallback(() => {
+    if (modalInput === '') {
+      alert('대시보드 제목을 입력해주세요.');
+    } else if (color === '') {
+      alert('색상을 선택해주세요.');
+    } else {
+      dashboardRequest({ title: modalInput, color });
+    }
+  });
+
+  useEffect(() => {
+    if (dashboardIsSuccess) {
+      setColor('');
+      setModalInput('');
+      closeModal();
+      navigate(`/dashboard/${dashboardData?.id}`);
+    }
+    if (dashboardIsError) {
+      alert(dashboardError?.response?.data?.message ?? '오류가 발생했습니다.');
+    }
+  }, [dashboardIsSuccess, dashboardIsError]);
+
   return (
     <DashboardContainer>
+      <BaseModal isOpen={isModalOpen}>
+        <Container>
+          <h1 className="modal_title">새로운 대시보드</h1>
+          <InputArea>
+            <strong>대시보드 이름</strong>
+            <input onChange={(e) => setModalInput(e.target.value)} />
+          </InputArea>
+          <SelectColorButton color={color} setColor={(c) => setColor(c)} />
+          <ButtonArea>
+            <button
+              className="cancel_button"
+              onClick={() => {
+                setColor('');
+                setModalInput('');
+                closeModal();
+              }}
+            >
+              취소
+            </button>
+            <button className="invite_button" onClick={sendInvite}>
+              생성
+            </button>
+          </ButtonArea>
+        </Container>
+      </BaseModal>
       <DashboardArticle>
-        <DashboardCard className="new_card">
+        <DashboardCard className="new_card" onClick={openModal}>
           새로운 대시보드 <img src="/src/assets/icon/dashboard_add_icon.svg" />
         </DashboardCard>
         {data?.dashboards !== null && data?.dashboards !== undefined ? (
@@ -131,4 +199,79 @@ const PagingSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: end;
+`;
+
+const Container = styled.div`
+  width: 33.75rem;
+  height: 20.875rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 2rem 1.75rem 1.75rem 1.75rem;
+  .modal_title {
+    color: ${({ theme }) => theme.color.black_33};
+    font-family: Pretendard;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+`;
+
+const InputArea = styled.div`
+  margin-top: 2rem;
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.62rem;
+  strong {
+    color: ${({ theme }) => theme.color.black_33};
+    font-family: Pretendard;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  input {
+    color: ${({ theme }) => theme.color.black_33};
+    width: 30.25rem;
+    height: 3rem;
+    padding: 0 1rem;
+    flex-shrink: 0;
+    border-radius: 0.375rem;
+    border: 1px solid ${({ theme }) => theme.color.gray_D9};
+    background: ${({ theme }) => theme.color.white};
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
+const buttonLayout = css`
+  display: flex;
+  width: 7.5rem;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: normal;
+`;
+const ButtonArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  .cancel_button {
+    ${buttonLayout};
+    border: 1px solid ${({ theme }) => theme.color.gray_D9};
+    background: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.color.gray_78};
+  }
+  .invite_button {
+    ${buttonLayout};
+    background: ${({ theme }) => theme.color.violet};
+    color: ${({ theme }) => theme.color.white};
+  }
 `;
