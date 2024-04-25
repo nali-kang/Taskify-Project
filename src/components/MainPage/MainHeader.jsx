@@ -27,6 +27,7 @@ const Header = styled.header`
   width: 100vw;
   height: 4.375rem;
   flex-shrink: 0;
+  z-index: 10;
   @media (max-width: 743px) {
     height: 3.75rem;
   }

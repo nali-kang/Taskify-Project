@@ -47,17 +47,39 @@ const SettingSection = styled.section`
   margin: 0 auto;
   gap: 2.25rem;
   padding-bottom: 10rem;
+
+  @media (max-width: 743px) {
+    width: 21.4375rem;
+    align-items: center;
+    padding-bottom: 7.53rem;
+  }
+  @media (min-width: 744px) and (max-width: 1220px) {
+    width: 23.625rem;
+    align-items: center;
+  }
   .setting_title {
     color: ${({ theme }) => theme.color.white};
     font-family: Pretendard;
     font-size: 1.75rem;
     font-weight: 700;
+    @media (max-width: 743px) {
+      font-size: 1.375rem;
+    }
   }
 `;
 
 const ImageContainer = styled.article`
   display: flex;
   gap: 2.06rem;
+  @media (max-width: 743px) {
+    flex-direction: column;
+    gap: 2.53rem;
+  }
+
+  @media (min-width: 744px) and (max-width: 1220px) {
+    flex-direction: column;
+    gap: 3rem;
+  }
 `;
 
 const ImageCard = styled.div`
@@ -65,6 +87,10 @@ const ImageCard = styled.div`
   height: 24rem;
   display: flex;
   flex-direction: column;
+  @media (max-width: 743px) {
+    width: 21.4375rem;
+    height: 21.73rem;
+  }
   .image_section {
     height: 16.25rem;
     display: flex;
@@ -72,15 +98,24 @@ const ImageCard = styled.div`
     justify-content: center;
     border-radius: 0.5rem 0.5rem 0rem 0rem;
     background: ${({ theme }) => theme.color.black_4B};
+    @media (max-width: 743px) {
+      height: 14.7rem;
+      img {
+        transform: scale(0.9);
+      }
+    }
   }
   .text_section {
     height: 7.75rem;
     border-radius: 0rem 0rem 0.5rem 0.5rem;
     background: ${({ theme }) => theme.color.black_17};
-    padding: 2.06rem 2rem;
+    padding: 1.69rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media (max-width: 743px) {
+      height: 7.03rem;
+    }
     h3 {
       font-family: Pretendard;
       font-size: 1.125rem;
