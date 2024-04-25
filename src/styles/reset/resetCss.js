@@ -71,6 +71,7 @@ const resetCss = css`
 
   * {
     font-family: 'Pretendard', sans-serif;
+    border: none;
   }
 `;
 
