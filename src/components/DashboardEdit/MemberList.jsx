@@ -99,6 +99,13 @@ const MemberListContainer = styled.article`
   border-radius: 0.5rem;
   background: ${({ theme }) => theme.color.white};
   margin-top: 0.75rem;
+  @media (max-width: 743px) {
+    width: 17.75rem;
+    height: 24.6875rem;
+  }
+  @media (min-width: 744px) and (max-width: 1220px) {
+    width: 34rem;
+  }
   .member_header {
     display: flex;
     width: 38.75rem;
@@ -107,11 +114,21 @@ const MemberListContainer = styled.article`
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
+    @media (max-width: 743px) {
+      padding: 1.88rem 1.25rem 0 1.25rem;
+      width: 17.75rem;
+    }
+    @media (min-width: 744px) and (max-width: 1220px) {
+      width: 34rem;
+    }
     .member_title {
       color: ${({ theme }) => theme.color.black_33};
       font-size: 1.5rem;
       font-weight: 700;
       line-height: normal;
+      @media (max-width: 743px) {
+        font-size: 1.25rem;
+      }
     }
   }
 `;

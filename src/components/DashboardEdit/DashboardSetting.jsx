@@ -76,10 +76,23 @@ const SettingContainer = styled.article`
   background: ${({ theme }) => theme.color.white};
   margin-top: 1.56rem;
   padding: 1.75rem;
+  @media (max-width: 743px) {
+    width: 17.75rem;
+    height: 13.1875rem;
+    margin-top: 1.31rem;
+    padding: 1.25rem;
+  }
+  @media (min-width: 744px) and (max-width: 1220px) {
+    width: 34rem;
+  }
   .setting_title {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: 743px) {
+      flex-direction: column;
+      gap: 1rem;
+    }
     h2 {
       color: ${({ theme }) => theme.color.black_33};
       font-size: 1.25rem;
@@ -93,15 +106,22 @@ const SettingContainer = styled.article`
     gap: 0.62rem;
     margin-top: 2.12rem;
     margin-bottom: 1.5rem;
+    @media (max-width: 743px) {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
     h3 {
       color: ${({ theme }) => theme.color.black_33};
       font-size: 1.125rem;
       font-weight: 500;
       line-height: normal;
+      @media (max-width: 743px) {
+        display: none;
+      }
     }
     .name_setting {
       border-radius: 0.375rem;
-      border: 1px solid ${({ theme }) => theme.color.gary_D9};
+      border: 1px solid ${({ theme }) => theme.color.gray_D9};
       background: ${({ theme }) => theme.color.white};
       height: 3rem;
       padding: 0.94rem 1rem 0.88rem 1rem;
@@ -109,6 +129,11 @@ const SettingContainer = styled.article`
       font-size: 1rem;
       font-weight: 400;
       line-height: normal;
+      @media (max-width: 743px) {
+        height: 2.625rem;
+        font-size: 0.875rem;
+        padding: 0.81rem 1rem 0.75rem 1rem;
+      }
     }
   }
   .setting_submit_area {
@@ -126,6 +151,10 @@ const SettingContainer = styled.article`
       font-size: 0.875rem;
       font-weight: 500;
       line-height: normal;
+      @media (max-width: 743px) {
+        height: 1.75rem;
+        font-size: 0.75rem;
+      }
     }
   }
 `;

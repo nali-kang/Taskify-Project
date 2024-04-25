@@ -26,6 +26,10 @@ export default DashboardEditPage;
 const DashboardEditContainer = styled.section`
   padding: 1.25rem;
   color: ${({ theme }) => theme.color.black_33};
+  @media (max-width: 743px) {
+    padding: 0.75rem;
+  }
+
   .back_link {
     display: flex;
     gap: 0.37rem;
@@ -34,5 +38,8 @@ const DashboardEditContainer = styled.section`
     font-size: 1rem;
     font-weight: 500;
     line-height: normal;
+    @media (max-width: 743px) {
+      font-size: 0.875rem;
+    }
   }
 `;
