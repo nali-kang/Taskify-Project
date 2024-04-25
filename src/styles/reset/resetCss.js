@@ -1,7 +1,5 @@
 import { css } from 'styled-components';
 
-// 커밋테스트입니다ㅠㅠ
-
 const resetCss = css`
   *,
   blockquote,
