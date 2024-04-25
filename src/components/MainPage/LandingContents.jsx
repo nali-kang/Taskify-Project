@@ -29,6 +29,16 @@ const TitleContents = styled.section`
     width: 45.125rem;
     height: 26.42256rem;
     margin-bottom: 3rem;
+
+    @media (max-width: 743px) {
+      width: 17.9375rem;
+      height: 10.5rem;
+      margin-bottom: 1.62rem;
+    }
+    @media (min-width: 744px) and (max-width: 1220px) {
+      width: 33.57813rem;
+      height: 19.6725rem;
+    }
   }
 `;
 const TitleTextDiv = styled.div`
@@ -37,6 +47,11 @@ const TitleTextDiv = styled.div`
   align-items: center;
   gap: 1.75rem;
   margin-bottom: 1.5rem;
+
+  @media (max-width: 743px) {
+    flex-direction: column;
+    gap: 0.31rem;
+  }
   .main-text {
     color: ${({ theme }) => theme.color.white};
     font-family: Pretendard;
@@ -44,6 +59,14 @@ const TitleTextDiv = styled.div`
     font-weight: 700;
     line-height: 6.25rem; /* 131.579% */
     letter-spacing: -0.125rem;
+
+    @media (max-width: 743px) {
+      font-size: 2.5rem;
+      line-height: normal;
+    }
+    @media (min-width: 744px) and (max-width: 1220px) {
+      font-size: 3.5rem;
+    }
   }
   .taskify-text {
     color: ${({ theme }) => theme.color.violet};
@@ -52,6 +75,14 @@ const TitleTextDiv = styled.div`
     font-weight: 700;
     line-height: 4.0625rem; /* 72.222% */
     letter-spacing: -0.0625rem;
+
+    @media (max-width: 743px) {
+      font-size: 2.625rem;
+      line-height: normal;
+    }
+    @media (min-width: 744px) and (max-width: 1220px) {
+      font-size: 4.375rem;
+    }
   }
 `;
 const SubtitleText = styled.p`
@@ -63,6 +94,13 @@ const SubtitleText = styled.p`
   font-weight: 400;
   line-height: 2rem;
   margin-bottom: 4.12rem;
+
+  @media (max-width: 743px) {
+    font-size: 0.75rem;
+  }
+  @media (min-width: 744px) and (max-width: 1220px) {
+    font-size: 1rem;
+  }
 `;
 
 const LoginButton = styled(Link)`
@@ -82,6 +120,15 @@ const LoginButton = styled(Link)`
   line-height: normal;
   &:hover {
     color: ${({ theme }) => theme.color.white};
+  }
+
+  @media (max-width: 743px) {
+    width: 14.7rem;
+    padding: 0.8125rem 0rem 0.75rem 0rem;
+    font-size: 0.875rem;
+  }
+  @media (min-width: 744px) and (max-width: 1220px) {
+    font-size: 1rem;
   }
 `;
 export default LandingContents;
