@@ -105,7 +105,7 @@ const InviteList = () => {
           }}
         />
       </div>
-      <ListTable column={column} data={inviteList} target={setTarget} />
+      <ListTable column={column} data={inviteList} target={setTarget} reverse={true} />
     </InviteContainer>
   );
 };
@@ -117,6 +117,14 @@ const InviteContainer = styled.section`
   max-height: 37.5rem;
   border-radius: 0.5rem;
   background: ${({ theme }) => theme.color.white};
+  @media (max-width: 743px) {
+    width: 16.25rem;
+    max-height: 52.25rem;
+  }
+  @media (min-width: 744px) and (max-width: 1400px) {
+    width: 31.5rem;
+    max-height: 37rem;
+  }
 
   .invite_title {
     color: ${({ theme }) => theme.color.black_33};
@@ -124,6 +132,10 @@ const InviteContainer = styled.section`
     font-weight: 700;
     line-height: normal;
     padding: 2rem 1.75rem 1.25rem;
+    @media (max-width: 743px) {
+      font-size: 1.25rem;
+      padding: 1.5rem 1rem 1.25rem;
+    }
   }
 
   .invite_search_box {
@@ -137,7 +149,22 @@ const InviteContainer = styled.section`
     display: flex;
     gap: 0.5rem;
     align-items: center;
-
+    @media (max-width: 743px) {
+      width: 14.25rem;
+      height: 2.25rem;
+      margin-left: 1rem;
+      padding: 0.4rem 0.75rem;
+    }
+    @media (min-width: 744px) and (max-width: 1400px) {
+      width: 28rem;
+      height: 2.5rem;
+    }
+    img {
+      @media (max-width: 743px) {
+        width: 1.375rem;
+        height: 1.375rem;
+      }
+    }
     .invite_search {
       width: 100%;
       font-size: 1rem;
@@ -146,6 +173,9 @@ const InviteContainer = styled.section`
       background: ${({ theme }) => theme.color.white};
       border: none;
       color: ${({ theme }) => theme.color.black_33};
+      @media (max-width: 743px) {
+        font-size: 0.875rem;
+      }
       ::placeholder {
         color: ${({ theme }) => theme.color.gray_9F};
       }
@@ -160,7 +190,6 @@ const InviteButton = css`
   display: flex;
   width: 5.25rem;
   height: 2rem;
-  padding: 0.4375rem 1.8125rem;
   justify-content: center;
   align-items: center;
   border-radius: 0.25rem;
@@ -168,11 +197,19 @@ const InviteButton = css`
   font-size: 0.875rem;
   font-weight: 500;
   line-height: normal;
+  @media (max-width: 743px) {
+    width: 4.5rem;
+    height: 1.75rem;
+  }
+  @media (min-width: 744px) and (max-width: 1400px) {
+    width: 4.5rem;
+    height: 1.875rem;
+  }
 `;
 
 const InviteAcceptedButton = styled.div`
   display: flex;
-  gap: 0.625rem;
+  gap: 0.5rem;
 
   .accept_button {
     ${InviteButton};
