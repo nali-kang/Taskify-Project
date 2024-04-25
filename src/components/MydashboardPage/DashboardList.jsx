@@ -111,8 +111,12 @@ const DashboardList = () => {
               >
                 <p className="dashboard_title">
                   <img className="dot" />
-                  {e.title}
-                  {e.createdByMe ? <img src="/src/assets/icon/crown_icon.svg" /> : <></>}
+                  <span>{e.title}</span>
+                  {e.createdByMe ? (
+                    <img className="crown" src="/src/assets/icon/crown_icon.svg" />
+                  ) : (
+                    <></>
+                  )}
                 </p>
                 <ArrowRight fill={'black'} />
               </DashboardCard>
@@ -143,6 +147,17 @@ const DashboardContainer = styled.article`
   flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 2.75rem;
+  @media (max-width: 743px) {
+    width: 16.25rem;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 744px) and (max-width: 1400px) {
+    width: 31.5rem;
+    gap: 0.62rem;
+    margin-bottom: 2.5rem;
+  }
 `;
 const DashboardArticle = styled.article`
   display: grid;
@@ -150,6 +165,19 @@ const DashboardArticle = styled.article`
   grid-template-rows: 1fr 1fr;
   gap: 0.75rem;
   width: 63.875rem;
+  @media (max-width: 743px) {
+    width: 16.25rem;
+    gap: 0.5rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  @media (min-width: 744px) and (max-width: 1400px) {
+    width: 31.5rem;
+    gap: 0.62rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
 `;
 const DashboardCard = styled.button`
   width: 20.75rem;
@@ -160,8 +188,21 @@ const DashboardCard = styled.button`
   display: flex;
   align-items: center;
   padding: 0 1.25rem;
+
+  @media (max-width: 743px) {
+    width: 16.25rem;
+    height: 3.625rem;
+  }
+
+  @media (min-width: 744px) and (max-width: 1400px) {
+    width: 15.4375rem;
+    height: 4.25rem;
+  }
   &.new_card {
     justify-content: center;
+    @media (max-width: 743px) {
+      font-size: 0.875rem;
+    }
     img {
       margin-left: 0.75rem;
       display: flex;
@@ -172,14 +213,28 @@ const DashboardCard = styled.button`
       align-items: center;
       border-radius: 0.25rem;
       background: ${({ theme }) => theme.color.violet_8p};
+      @media (max-width: 743px) {
+        width: 1.25rem;
+        height: 1.25rem;
+        padding: 0.17rem;
+      }
     }
   }
   &.dashboard {
     justify-content: space-between;
+    @media (max-width: 743px) {
+      font-size: 0.875rem;
+    }
     .dashboard_title {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      @media (max-width: 743px) {
+        gap: 0.25rem;
+      }
+      @media (min-width: 744px) and (max-width: 1400px) {
+        gap: 0.25rem;
+      }
     }
     .dot {
       width: 0.5rem;
@@ -188,6 +243,28 @@ const DashboardCard = styled.button`
       margin-right: 0.5rem;
       border: 0;
       background-color: ${(props) => props.color};
+    }
+    .crown {
+      @media (max-width: 743px) {
+        width: 0.94231rem;
+        height: 0.75rem;
+      }
+      @media (min-width: 744px) and (max-width: 1400px) {
+        width: 1.09938rem;
+        height: 0.875rem;
+      }
+    }
+    span {
+      max-width: 14rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      @media (max-width: 743px) {
+        max-width: 10rem;
+      }
+      @media (min-width: 744px) and (max-width: 1400px) {
+        max-width: 8rem;
+      }
     }
   }
   color: ${({ theme }) => theme.color.black_33};
@@ -207,6 +284,11 @@ const Container = styled.div`
   background-color: white;
   border-radius: 0.5rem;
   padding: 2rem 1.75rem 1.75rem 1.75rem;
+  @media (max-width: 743px) {
+    width: 20.4375rem;
+    height: 18.3125rem;
+    padding: 1.75rem 1.25rem;
+  }
   .modal_title {
     color: ${({ theme }) => theme.color.black_33};
     font-family: Pretendard;
@@ -214,6 +296,9 @@ const Container = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    @media (max-width: 743px) {
+      font-size: 1.25rem;
+    }
   }
 `;
 
@@ -223,6 +308,10 @@ const InputArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.62rem;
+  @media (max-width: 743px) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
   strong {
     color: ${({ theme }) => theme.color.black_33};
     font-family: Pretendard;
@@ -230,6 +319,9 @@ const InputArea = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    @media (max-width: 743px) {
+      font-size: 1rem;
+    }
   }
   input {
     color: ${({ theme }) => theme.color.black_33};
@@ -243,6 +335,11 @@ const InputArea = styled.div`
     font-size: 1rem;
     font-weight: 400;
     line-height: normal;
+    @media (max-width: 743px) {
+      width: 17.9375rem;
+      height: 2.625rem;
+      font-size: 0.875rem;
+    }
   }
 `;
 
@@ -256,6 +353,11 @@ const buttonLayout = css`
   font-size: 1rem;
   font-weight: 500;
   line-height: normal;
+  @media (max-width: 743px) {
+    width: 8.625rem;
+    height: 2.625rem;
+    font-size: 0.875rem;
+  }
 `;
 const ButtonArea = styled.div`
   display: flex;
@@ -263,6 +365,11 @@ const ButtonArea = styled.div`
   justify-content: end;
   gap: 0.75rem;
   margin-top: 1.75rem;
+
+  @media (max-width: 743px) {
+    margin-top: 1.5rem;
+    gap: 0.69rem;
+  }
   .cancel_button {
     ${buttonLayout};
     border: 1px solid ${({ theme }) => theme.color.gray_D9};
