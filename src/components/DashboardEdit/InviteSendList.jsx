@@ -163,7 +163,15 @@ const SendListContainer = styled.article`
   border-radius: 0.5rem;
   background: ${({ theme }) => theme.color.white};
   margin-top: 0.75rem;
+  @media (max-width: 743px) {
+    width: 17.75rem;
+    height: 24.6875rem;
+  }
+  @media (min-width: 744px) and (max-width: 1220px) {
+    width: 34rem;
+  }
   .send_header {
+    position: relative;
     display: flex;
     width: 38.75rem;
     height: 4.12rem;
@@ -171,27 +179,53 @@ const SendListContainer = styled.article`
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
+    @media (max-width: 743px) {
+      padding: 1.88rem 1.25rem 0 1.25rem;
+      width: 17.75rem;
+    }
+    @media (min-width: 744px) and (max-width: 1220px) {
+      width: 34rem;
+    }
     .send_title {
       color: ${({ theme }) => theme.color.black_33};
       font-size: 1.5rem;
       font-weight: 700;
       line-height: normal;
+      @media (max-width: 743px) {
+        font-size: 1.25rem;
+      }
     }
     .send_invite {
       display: flex;
       align-items: center;
       gap: 1rem;
+      @media (max-width: 743px) {
+        align-items: end;
+        flex-direction: column;
+        position: absolute;
+        top: 1.75rem;
+        right: 1.25rem;
+        z-index: 1;
+      }
       .invite_button {
         display: flex;
         align-items: center;
+        justify-content: center;
+        padding: 0;
         gap: 0.5rem;
         width: 6.5625rem;
         height: 2rem;
         border-radius: 0.25rem;
         background: ${({ theme }) => theme.color.violet};
         color: ${({ theme }) => theme.color.white};
-        font-size: 0.8rem;
+        font-size: 0.825rem;
         font-weight: 500;
+        @media (max-width: 743px) {
+          width: 5.375rem;
+          height: 1.75rem;
+          font-size: 0.75rem;
+          gap: 0.3rem;
+        }
       }
     }
   }
@@ -203,6 +237,11 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.color.white};
   border-radius: 0.5rem;
   padding: 2rem 1.75rem 1.75rem 1.75rem;
+  @media (max-width: 743px) {
+    width: 20.4375rem;
+    height: 15.0625rem;
+    padding: 1.75rem 1.25rem;
+  }
   .modal_title {
     color: ${({ theme }) => theme.color.black_33};
     font-family: Pretendard;
@@ -210,6 +249,9 @@ const Container = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    @media (max-width: 743px) {
+      font-size: 1.25rem;
+    }
   }
 `;
 
@@ -219,6 +261,10 @@ const InputArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.62rem;
+  @media (max-width: 743px) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
   strong {
     color: ${({ theme }) => theme.color.black_33};
     font-family: Pretendard;
@@ -226,6 +272,9 @@ const InputArea = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    @media (max-width: 743px) {
+      font-size: 1rem;
+    }
   }
   input {
     color: ${({ theme }) => theme.color.black_33};
@@ -239,6 +288,11 @@ const InputArea = styled.div`
     font-size: 1rem;
     font-weight: 400;
     line-height: normal;
+    @media (max-width: 743px) {
+      width: 17.9375rem;
+      height: 2.625rem;
+      font-size: 0.875rem;
+    }
   }
 `;
 
@@ -252,12 +306,21 @@ const buttonLayout = css`
   font-size: 1rem;
   font-weight: 500;
   line-height: normal;
+  @media (max-width: 743px) {
+    width: 8.625rem;
+    height: 2.625rem;
+    font-size: 0.875rem;
+  }
 `;
 const ButtonArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
   gap: 0.75rem;
+  @media (max-width: 743px) {
+    margin-top: 1.5rem;
+    gap: 0.69rem;
+  }
   .cancel_button {
     ${buttonLayout};
     border: 1px solid ${({ theme }) => theme.color.gray_D9};

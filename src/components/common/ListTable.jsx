@@ -96,6 +96,12 @@ const TableContainer = styled.div`
       top: 0;
       height: 2.93rem;
       background-color: white;
+      @media (max-width: 743px) {
+        height: 2.2rem;
+      }
+      @media (min-width: 744px) and (max-width: 1400px) {
+        height: 2.42rem;
+      }
       .header_column {
         width: calc(100% / ${(props) => props.length});
         padding: 1.5rem 1.5rem 0 1.5rem;
@@ -105,11 +111,15 @@ const TableContainer = styled.div`
         font-style: normal;
         font-weight: 400;
         line-height: normal;
+        @media (max-width: 743px) {
+          font-size: 0.875rem;
+        }
       }
     }
     tbody {
       margin-top: 2.93rem;
       @media (max-width: 743px) {
+        margin-top: 2.2rem;
       }
 
       @media (min-width: 744px) and (max-width: 1400px) {
@@ -119,12 +129,12 @@ const TableContainer = styled.div`
         height: 4.5rem;
         border-bottom: 1px solid ${({ theme }) => theme.color.gray_EE};
         @media (max-width: 743px) {
+          height: 3.62rem;
+          font-size: 0.875rem;
         }
-
         @media (min-width: 744px) and (max-width: 1400px) {
           height: 4.38rem;
         }
-
         &:last-child {
           border: none;
         }
@@ -151,6 +161,14 @@ export const DeleteButton = styled.div`
     color: ${({ theme }) => theme.color.violet};
     font-size: 0.875rem;
     font-weight: 500;
+  }
+  @media (max-width: 743px) {
+    padding-right: 1.25em;
+    .delete_button {
+      width: 3.25rem;
+      height: 1.75rem;
+      font-size: 0.75rem;
+    }
   }
 `;
 
