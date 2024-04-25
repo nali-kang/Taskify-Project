@@ -1,119 +1,79 @@
-import { useEffect, useState } from 'react';
-import * as S from './styled';
-// import styled from "styled-components";
-import AuthInput from '../AuthInput/AuthInput';
-// import axios from "../../lib/axios";
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import useUserStore from "../../store/userStore";
-// import ModalCheckIt from "../model/modalCheckIt";
-// import useToggle from "../../hooks/useToggle";
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+
+import AuthInput from '../AuthInput/AuthInput';
+import BaseModal from '../common/Modal';
+import ModalCheckIt from '../modal/modalCheckIt';
+
+import useBooleanState from '../../hooks/useBooleanState';
+
+import axios from '../../lib/axios';
+
+import useUserStore from '../../store/userStore';
+
+import * as S from './styled';
+
+const PASSWORD_MIN_LENGTH = 8;
 
 function SignIn() {
-  // const { user, setUser } = useUserStore();
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  // const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
-  // const [showPwdError, showPwdToggle] = useToggle(false);
+  const setUser = useUserStore((state) => state.setUser);
+  const [isOpenPasswordErrorModal, openPasswordErrorModal, closePasswordErrorModal] =
+    useBooleanState();
 
-  // const [value, setValue] = useState({
-  const [setValue] = useState({
-    email: '',
-    password: '',
+  const {
+    formState: { errors },
+    register,
+    handleSubmit,
+  } = useForm({
+    mode: 'all',
+  });
+
+  const { mutateAsync: login } = useMutation({
+    mutationFn: (value) => {
+      return axios.post('/auth/login', value);
+    },
   });
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const LS = localStorage.getItem('login');
-    if (LS !== null) {
+  const onSubmit = async (fieldValues) => {
+    try {
+      const { data } = await login(fieldValues);
+      const { accessToken, user } = data;
+
+      localStorage.setItem('accessToken', accessToken);
+
+      setUser(user);
+
       navigate('/');
-    }
-  }, [navigate]);
-
-  const validateEmail = (email) => {
-    const isValidEmail = /\S+@\S+\.\S+/.test(email);
-    setEmailError(!isValidEmail); // 이메일이 유효하지 않을 때 true 설정
-    setValue((prev) => ({ ...prev, email }));
-
-    // setValue((prev) => ({
-    //   ...prev,
-    //   email: email,
-    // }));
-  };
-
-  const validatePassword = (password) => {
-    const isPasswordValid = password.length >= 8;
-    setPasswordError(!isPasswordValid);
-    setValue((prev) => ({ ...prev, password }));
-
-    // setValue((prev) => ({
-    //   ...prev,
-    //   password: password,
-    // }));
-  };
-
-  const handleFocusOut = (e) => {
-    if (e.target.id === '이메일') {
-      validateEmail(e.target.value);
-    } else if (e.target.id === 'pwd비밀번호') {
-      validatePassword(e.target.value);
+    } catch (error) {
+      openPasswordErrorModal();
     }
   };
 
-  // const login = async (e) => {
-  //   e.preventDefault();
+  useEffect(
+    function redirectToHomeWhenHasAuth() {
+      const accessToken = localStorage.getItem('accessToken');
 
-  //   try {
-  //     const res = await axios.post("auth/login", value);
-  //     localStorage.setItem("login", res.data.accessToken);
-  //     await setUserData();
-  //     navigate("/");
-  //   } catch (error) {
-  //     setEmailError(true);
-  //     setPasswordError(true);
-  //     if (value.email !== "" && value.password !== "") {
-  //       showPwdToggle();
-  //     }
-  //     console.error("로그인 실패:", error);
-  //   }
-  // };
-  // async function login(e) {
-  //   e.preventDefault();
-
-  //   try {
-  //     const res = await axios.post("auth/login", value);
-  //     localStorage.setItem("login", res.data.accessToken);
-
-  //     await setUserData();
-  //     navigate.push("/");
-  //   } catch (error) {
-  //     setEmailError(true);
-  //     setPasswordError(true);
-  //     if (value.email !== "" && value.password !== "") {
-  //       showPwdToggle();
-  //     }
-  //     console.error("로그인 실패:", error);
-  //   }
-  // }
-
-  // const setUserData = async () => {
-  //   try {
-  //     const response = await axios.get("users/me");
-  //     setUser(response.data);
-  //   } catch (error) {
-  //     console.error("사용자 정보 가져오기 실패:", error);
-  //   }
-  // };
+      if (accessToken) {
+        navigate('/');
+      }
+    },
+    [navigate],
+  );
 
   return (
     <>
-      {/* {showPwdError && (
+      <BaseModal isOpen={isOpenPasswordErrorModal}>
         <ModalCheckIt
-          text="비밀번호가 일치하지 않습니다."
-          submitButton="확인"
-          wrong={showPwdToggle}
+          text="존재하지 않는 유저입니다."
+          confirmButton="확인"
+          onClickConfirm={closePasswordErrorModal}
         />
-      )} */}
+      </BaseModal>
+
       <S.signinback>
         <S.signin>
           <S.logoWrap>
@@ -124,28 +84,35 @@ function SignIn() {
             </S.logo>
             <p>오늘도 만나서 반가워요!</p>
           </S.logoWrap>
-          {/* onSubmit={login} */}
-          {/* onChange={handleSubmit(onSubmit)} */}
-          {/* <S.loginForm onSubmit={login}> */}
-          <S.loginForm>
+
+          <S.loginForm onSubmit={handleSubmit(onSubmit)}>
             <AuthInput
-              // hookform={register("email")}
-              title="이메일"
+              label="이메일"
               placeholder="이메일을 입력해 주세요"
               data="이메일"
-              wrong={emailError}
-              handleBlur={handleFocusOut}
+              error={errors.email?.message}
+              {...register('email', {
+                required: '이메일을 입력해주세요.',
+                pattern: {
+                  value: /^[a-zA-Z0-9.!#$%&â€™*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  message: '이메일 형식에 맞게 입력해주세요.',
+                },
+              })}
             />
             <AuthInput
-              // hookform={register("password")}
-              title="비밀번호"
+              label="비밀번호"
               placeholder="비밀번호를 입력해 주세요"
               data="pwd"
-              wrong={passwordError}
-              handleBlur={handleFocusOut}
+              error={errors.password?.message}
+              {...register('password', {
+                required: '비밀번호를 입력해주세요.',
+                minLength: {
+                  value: PASSWORD_MIN_LENGTH,
+                  message: '비밀번호는 8자 이상 입력해주세요.',
+                },
+              })}
             />
-
-            <S.submit type="submit" value="로그인" />
+            <S.submit type="submit">로그인</S.submit>
           </S.loginForm>
 
           <S.signup>
