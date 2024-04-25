@@ -1,40 +1,61 @@
+import { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 
-const ListTable = ({ column, data, target }) => {
+const ListTable = ({ column, data, target, reverse = false }) => {
+  const targetDiv = useMemo(() => {
+    return <div ref={target} className="target" />;
+  }, [target]);
   return (
-    <>
-      <TableContainer length={column.length}>
-        <table className="data_table">
-          <thead>
-            {column.map((e) => (
-              <th key={e.dataIndex} className="header_column">
-                {e.title}
-              </th>
-            ))}
-          </thead>
-          <tbody>
-            {data ? (
-              data?.map((dataElement) => {
-                return (
-                  <tr key={dataElement.id} className="table_row">
-                    {column.map((columnElement) => (
-                      <td key={dataElement.id + columnElement.dataIndex} className="table_column">
-                        {columnElement?.render
-                          ? columnElement?.render(dataElement[columnElement.dataIndex], dataElement)
-                          : dataElement[columnElement.dataIndex]}
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </tbody>
-          {target ? <div ref={target} className="target" /> : <></>}
-        </table>
-      </TableContainer>
-    </>
+    <TableContainer length={column.length}>
+      {reverse && (
+        <ReverseTable>
+          {data?.map((dataElement) => {
+            return (
+              <div className="data_table_row" key={dataElement.id + 'R'}>
+                {column.map((columnElement) => (
+                  <div key={dataElement.id + columnElement.dataIndex} className="data_col">
+                    <p className="title">{columnElement.title}</p>
+                    {columnElement?.render
+                      ? columnElement?.render(dataElement[columnElement.dataIndex], dataElement)
+                      : dataElement[columnElement.dataIndex]}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </ReverseTable>
+      )}
+
+      <table className={reverse ? 'data_table reverse' : 'data_table'}>
+        <thead>
+          {column.map((e) => (
+            <th key={e.dataIndex} className="header_column">
+              {e.title}
+            </th>
+          ))}
+        </thead>
+        <tbody>
+          {data ? (
+            data?.map((dataElement) => {
+              return (
+                <tr key={dataElement.id} className="table_row">
+                  {column.map((columnElement) => (
+                    <td key={dataElement.id + columnElement.dataIndex} className="table_column">
+                      {columnElement?.render
+                        ? columnElement?.render(dataElement[columnElement.dataIndex], dataElement)
+                        : dataElement[columnElement.dataIndex]}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </tbody>
+      </table>
+      {target ? <>{targetDiv}</> : <></>}
+    </TableContainer>
   );
 };
 
@@ -50,6 +71,9 @@ const TableContainer = styled.div`
   width: 100%;
   max-height: 29.94rem;
   overflow-y: auto;
+  .target {
+    height: 1px;
+  }
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -61,6 +85,11 @@ const TableContainer = styled.div`
     border-radius: 6px;
   }
   .data_table {
+    &.reverse {
+      @media (max-width: 743px) {
+        display: none;
+      }
+    }
     ${table};
     thead {
       position: sticky;
@@ -80,9 +109,22 @@ const TableContainer = styled.div`
     }
     tbody {
       margin-top: 2.93rem;
+      @media (max-width: 743px) {
+      }
+
+      @media (min-width: 744px) and (max-width: 1400px) {
+        margin-top: 2.42rem;
+      }
       .table_row {
         height: 4.5rem;
         border-bottom: 1px solid ${({ theme }) => theme.color.gray_EE};
+        @media (max-width: 743px) {
+        }
+
+        @media (min-width: 744px) and (max-width: 1400px) {
+          height: 4.38rem;
+        }
+
         &:last-child {
           border: none;
         }
@@ -90,9 +132,6 @@ const TableContainer = styled.div`
       .table_column {
         padding-left: 1.5rem;
       }
-    }
-    .target {
-      height: 1px;
     }
   }
 `;
@@ -112,5 +151,38 @@ export const DeleteButton = styled.div`
     color: ${({ theme }) => theme.color.violet};
     font-size: 0.875rem;
     font-weight: 500;
+  }
+`;
+
+const ReverseTable = styled.section`
+  display: none;
+  @media (max-width: 743px) {
+    display: block;
+    .data_table_row {
+      height: 7.5rem;
+      border-bottom: 1px solid ${({ theme }) => theme.color.gray_EE};
+      display: flex;
+      flex-direction: column;
+      color: var(--black-black_333236, #333236);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: normal;
+      gap: 0.62rem;
+      padding: 1rem;
+      &:last-child {
+        border: none;
+      }
+      .data_col {
+        display: flex;
+        align-items: center;
+        .title {
+          width: 4rem;
+          color: var(--gray-gray_9FA6B2, #9fa6b2);
+        }
+      }
+    }
+    .target {
+      height: 1px;
+    }
   }
 `;

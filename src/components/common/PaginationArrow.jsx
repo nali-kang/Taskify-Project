@@ -49,6 +49,7 @@ const PagingArrowContainer = styled.div`
     height: 2.5rem;
     background-color: transparent;
     border: none;
+
     &:focus,
     &:focus-visible {
       outline: 0;
@@ -60,6 +61,7 @@ const PagingArrowContainer = styled.div`
     border: 1px solid ${({ theme }) => theme.color.gray_D9};
     background: ${({ theme }) => theme.color.white};
     padding: 0.75rem;
+
     &.left {
       border-radius: 0.25rem 0rem 0rem 0.25rem;
     }
@@ -73,5 +75,10 @@ const PagingArrowContainer = styled.div`
     font-weight: 400;
     margin-right: 1rem;
     line-height: 2.5rem;
+    @media (max-width: 743px) {
+      font-size: 0.75rem;
+      line-height: normal;
+      margin-right: 0.75rem;
+    }
   }
 `;
