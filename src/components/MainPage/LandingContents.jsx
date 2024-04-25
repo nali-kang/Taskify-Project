@@ -25,6 +25,10 @@ const TitleContents = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 743px) {
+    padding-top: 6.38rem;
+    padding-bottom: 5rem;
+  }
   & img {
     width: 45.125rem;
     height: 26.42256rem;
