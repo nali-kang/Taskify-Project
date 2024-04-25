@@ -46,7 +46,7 @@ const HeaderContainer = styled.header`
 const NavbarContainer = styled.nav`
   position: fixed;
   width: 18.75rem;
-  height: 100vh;
+  min-height: 100vh;
   top: 0;
   left: 0;
   background-color: ${({ theme }) => theme.color.white};
@@ -61,7 +61,7 @@ const MainContainer = styled.main`
   padding-top: 4.38rem;
   padding-left: 18.75rem;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: ${({ theme }) => theme.color.gray_FA};
   @media (max-width: 743px) {
     padding-top: 3.75rem;

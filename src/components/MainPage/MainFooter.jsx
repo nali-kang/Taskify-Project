@@ -34,7 +34,7 @@ const FooterContainer = styled.footer`
   display: flex;
   justify-content: space-between;
   .footer_text {
-    color: var(--gray-gray_9FA6B2, #9fa6b2);
+    color: ${({ theme }) => theme.color.gray_9F};
     font-family: Pretendard;
     font-size: 1rem;
     font-weight: 400;

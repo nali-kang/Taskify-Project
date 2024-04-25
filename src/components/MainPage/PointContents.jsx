@@ -27,7 +27,7 @@ const PointLayout = styled.section`
   width: 75rem;
   height: 37.5rem;
   border-radius: 0.5rem;
-  background: var(--black-black_171717, #171717);
+  background: ${({ theme }) => theme.color.black_17};
   margin: 0 auto 5.62rem;
   .point_article {
     height: 100%;
@@ -41,7 +41,7 @@ const PointLayout = styled.section`
       grid-area: point;
       padding-left: 3.75rem;
       align-self: center;
-      color: var(--gray-gray_9FA6B2, #9fa6b2);
+      color: ${({ theme }) => theme.color.gray_9F};
       font-size: 1.375rem;
       font-weight: 500;
     }
@@ -49,7 +49,7 @@ const PointLayout = styled.section`
       white-space: pre-wrap;
       grid-area: text;
       padding-left: 3.75rem;
-      color: var(--white-white_FFFFFF, #fff);
+      color: ${({ theme }) => theme.color.white};
       font-family: Pretendard;
       font-size: 3rem;
       font-weight: 700;
