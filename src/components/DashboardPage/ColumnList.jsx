@@ -70,6 +70,16 @@ const ColumnContainer = styled.article`
   padding: 1.25rem;
   border: 1px solid var(--gray-gray_EEEEEE, #eee);
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+  }
 `;
 
 const ColumnTitle = styled.div`
