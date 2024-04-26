@@ -17,7 +17,7 @@ export const container = styled.div`
   padding: 3.2rem 2.8rem 2.8rem 2.8rem;
   flex-shrink: 0;
   border-radius: 0.8rem;
-  background: var(--white-FFFFFF);
+  background: ${({ theme }) => theme.color.white};
   flex-direction: column;
   display: flex;
   justify-content: center;
@@ -44,9 +44,8 @@ export const button = styled.button`
   gap: 1rem;
   flex-shrink: 0;
   border-radius: 8px;
-  background: ${({ disabled, theme }) =>
-    disabled ? theme.color.violet_8p : theme.color.violet_55};
-  color: var(--white-FFFFFF) !important;
+  background: ${({ disabled, theme }) => (disabled ? theme.color.violet_8p : theme.color.violet)};
+  color: ${({ theme }) => theme.color.white} !important;
   text-align: center;
 
   font-size: 1.5rem;
@@ -54,8 +53,8 @@ export const button = styled.button`
 
   &:hover {
     background: ${({ disabled, theme }) =>
-      disabled ? theme.color.violet_8p : theme.color.violet_55} !important;
-    color: var(--white-FFFFFF) !important;
+      disabled ? theme.color.violet_8p : theme.color.violet} !important;
+    color: ${({ theme }) => theme.color.white} !important;
   }
 
   @media (max-width: 767px) {
@@ -72,8 +71,8 @@ export const cancelButton = styled.button`
   gap: 1rem;
   flex-shrink: 0;
   border-radius: 0.8rem;
-  border: 1px solid var(--gray-D9D9D9);
-  color: var(--gray-787486);
+  border: 1px solid ${({ theme }) => theme.color.gray_D9};
+  color: ${({ theme }) => theme.color.gray_78};
   text-align: center;
   font-size: 1.6rem;
   font-weight: 500;
