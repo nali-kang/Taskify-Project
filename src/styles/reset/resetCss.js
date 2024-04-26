@@ -55,7 +55,7 @@ const resetCss = css`
   img,
   video {
     height: auto;
-    max-width: 100%;
+    /* max-width: 100%; */
   }
   iframe {
     border: 0;
