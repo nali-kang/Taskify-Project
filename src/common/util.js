@@ -19,13 +19,13 @@ export const getURL = (pathname, paramData) => {
 };
 
 const setHex = (code) => {
-  return Math.floor((code > 99 ? code - 50 : code) * 1.27 + 128).toString(16);
+  return Math.floor((code > 99 ? Number((code + '').slice(-2)) : code) * 1.27 + 128).toString(16);
 };
 
 export const hexColorEncode = (text) => {
-  let color_r = setHex(text.charCodeAt(0));
-  let color_g = setHex(text.charCodeAt(1));
-  let color_b = setHex(text.charCodeAt(2));
+  const color_r = setHex(text.charCodeAt(0));
+  const color_g = setHex(text.length > 1 ? text.charCodeAt(1) : text.charCodeAt(0));
+  const color_b = setHex(text.length > 2 ? text.charCodeAt(2) : text.charCodeAt(0));
 
-  return `#${color_r + color_g + color_b}`;
+  return `#${(color_r + color_g + color_b).slice(0, 6)}`;
 };
