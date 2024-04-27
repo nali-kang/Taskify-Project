@@ -1,17 +1,27 @@
 import styled from 'styled-components';
-import { useGetRequest } from '../../hooks/useRequest';
-import { useEffect } from 'react';
+import { useInfinityRequest } from '../../hooks/useRequest';
+import { useEffect, useState } from 'react';
 import { hexColorEncode } from '../../common/util';
 
 const ColumnList = ({ id, title }) => {
-  const { data, request } = useGetRequest({
-    requestPath: '/cards',
+  const [cardList, setCardList] = useState([]);
+
+  const { data, fetchNextPage, setTarget } = useInfinityRequest({
     queryKey: ['cards', id],
+    requestParam: { columnId: id, size: 5 },
+    requestPath: '/cards',
+    method: 'GET',
   });
 
   useEffect(() => {
-    request({ columnId: id });
+    fetchNextPage();
   }, []);
+
+  useEffect(() => {
+    if (data?.pages.length > 0) {
+      setCardList([...cardList, ...data.pages[data.pages.length - 1].cards]);
+    }
+  }, [data]);
 
   return (
     <ColumnContainer>
@@ -21,7 +31,7 @@ const ColumnList = ({ id, title }) => {
           <h1 className="title">
             {title} {id}
           </h1>
-          <p className="count">{data?.cards?.length ?? 0}</p>
+          <p className="count">{cardList?.length ?? 0}</p>
         </div>
         <button className="setting_button">
           <img src="/src/assets/icon/setting_icon.svg" />
@@ -31,9 +41,12 @@ const ColumnList = ({ id, title }) => {
         <button className="card_default new_card">
           <img src="/src/assets/icon/dashboard_add_icon.svg" />
         </button>
-        {data?.cards?.map((e) => {
+        {cardList?.map((e) => {
           return (
-            <button key={e.id} className="card_default column_card">
+            <button
+              key={e.id}
+              className={'card_default column_card' + (e?.imageUrl ? '' : ' no_image')}
+            >
               {e?.imageUrl && <img className="card_img" src={e?.imageUrl} />}
               <strong className="title">{e.title}</strong>
               <TagList>
@@ -57,6 +70,7 @@ const ColumnList = ({ id, title }) => {
             </button>
           );
         })}
+        <div className="target" ref={setTarget}></div>
       </CardList>
     </ColumnContainer>
   );
@@ -66,10 +80,22 @@ export default ColumnList;
 
 const ColumnContainer = styled.article`
   width: 22.125rem;
-  height: 100vh;
+  height: 100%;
   padding: 1.25rem;
   border: 1px solid var(--gray-gray_EEEEEE, #eee);
   overflow-y: auto;
+
+  @media (max-width: 743px) {
+    width: calc(100vw - 4.1875rem);
+    max-height: 29.375rem;
+    padding: 1 0.75rem;
+  }
+
+  @media (min-width: 744px) and (max-width: 1220px) {
+    width: 36.5rem;
+    max-height: 21.625rem;
+  }
+
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -101,11 +127,13 @@ const ColumnTitle = styled.div`
     }
     .title {
       color: var(--black-black_333236, #333236);
-      font-family: Pretendard;
       font-size: 1.125rem;
-      font-style: normal;
       font-weight: 700;
       line-height: normal;
+      margin: 0;
+      @media (max-width: 743px) {
+        font-size: 1rem;
+      }
     }
     .count {
       display: flex;
@@ -147,6 +175,15 @@ const CardList = styled.div`
     border-radius: 0.375rem;
     border: 1px solid var(--gray-gray_D9D9D9, #d9d9d9);
     background: var(--white-white_FFFFFF, #fff);
+
+    @media (max-width: 743px) {
+      width: 100%;
+      min-height: 2rem;
+    }
+
+    @media (min-width: 744px) and (max-width: 1220px) {
+      width: 34rem;
+    }
     &.new_card {
       display: flex;
       justify-content: center;
@@ -173,19 +210,56 @@ const CardList = styled.div`
       display: flex;
       flex-direction: column;
       gap: 0.63rem;
+
+      @media (max-width: 743px) {
+        padding: 0.75rem;
+        gap: 0.37rem;
+      }
+
+      @media (min-width: 744px) and (max-width: 1220px) {
+        display: grid;
+        grid-template-areas:
+          'image text text'
+          'image tag user';
+
+        grid-template-columns: 1fr 2fr 2fr;
+        &.no_image {
+          grid-template-areas:
+            'text text'
+            'tag user';
+
+          grid-template-columns: 1fr 1fr;
+        }
+      }
       .card_img {
         width: 100%;
         border-radius: 0.375rem;
+        grid-area: image;
+
+        @media (min-width: 744px) and (max-width: 1220px) {
+          width: 5.6725rem;
+        }
       }
       .title {
+        grid-area: text;
         color: var(--black-black_333236, #333236);
         font-family: Pretendard;
         font-size: 1rem;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
+
+        @media (max-width: 743px) {
+          font-size: 0.875rem;
+        }
+
+        @media (min-width: 744px) and (max-width: 1220px) {
+          align-self: center;
+          justify-self: start;
+        }
       }
       .card_info {
+        grid-area: user;
         width: 100%;
         display: flex;
         align-items: center;
@@ -198,18 +272,30 @@ const CardList = styled.div`
           font-size: 0.75rem;
           font-weight: 500;
           line-height: normal;
+
+          @media (max-width: 743px) {
+            font-size: 0.625rem;
+          }
         }
         .user {
           width: 1.5rem;
           height: 1.5rem;
           background: #a3c4a2;
           border-radius: 100%;
+          @media (max-width: 743px) {
+            width: 1.375rem;
+            height: 1.375rem;
+          }
         }
       }
     }
   }
+  .target {
+    height: 1px;
+  }
 `;
 const TagList = styled.div`
+  grid-area: tag;
   width: 100%;
   overflow-x: auto;
   display: flex;
@@ -223,6 +309,10 @@ const Tag = styled.div`
   line-height: normal;
   padding: 0.25rem 0.375rem;
   border-radius: 0.25rem;
+
+  @media (max-width: 743px) {
+    font-size: 0.625rem;
+  }
 `;
 const UserCircle = styled.div`
   width: 1.5rem;
@@ -236,4 +326,9 @@ const UserCircle = styled.div`
   font-family: Montserrat;
   font-size: 0.75rem;
   font-weight: 600;
+  @media (max-width: 743px) {
+    width: 1.375rem;
+    height: 1.375rem;
+    font-size: 0.625rem;
+  }
 `;
