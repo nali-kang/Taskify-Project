@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 const useUserStore = create(
   persist(
@@ -8,8 +8,8 @@ const useUserStore = create(
       setUser: (userInfo) => set({ user: userInfo }),
     }),
     {
-      name: 'user-store', // localStorage에 저장될 때 사용될 키
-      storage: () => localStorage, // 사용할 스토리지 지정
+      name: 'user', // localStorage에 저장될 때 사용될 키
+      storage: createJSONStorage(() => localStorage), // 사용할 스토리지 지정
     },
   ),
 );
