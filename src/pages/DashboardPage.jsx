@@ -27,6 +27,18 @@ export default DashboardPage;
 
 const DashboardContainer = styled.section`
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 4.38rem);
   min-width: 100vw;
+
+  @media (max-width: 743px) {
+    flex-direction: column;
+    min-height: calc(100vh - 4.38rem);
+    height: auto;
+  }
+
+  @media (min-width: 744px) and (max-width: 1220px) {
+    flex-direction: column;
+    min-height: calc(100vh - 4.38rem);
+    height: auto;
+  }
 `;
