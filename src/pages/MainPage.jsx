@@ -2,8 +2,16 @@ import styled from 'styled-components';
 import LandingContents from '@components/MainPage/LandingContents';
 import PointContents from '@components/MainPage/PointContents';
 import SettingContents from '@components/MainPage/SettingContents';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
+  const navigator = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      navigator('/mydashboard', { replace: true });
+    }
+  }, []);
   return (
     <MainContents>
       <LandingContents />
