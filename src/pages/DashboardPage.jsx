@@ -84,7 +84,7 @@ const NewColumnButton = styled.div`
     align-items: center;
     @media (max-width: 743px) {
       width: 100%;
-      min-height: 2rem;
+      height: 3.75rem;
       font-size: 1rem;
     }
 
