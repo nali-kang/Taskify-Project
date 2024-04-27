@@ -86,7 +86,7 @@ const ColumnContainer = styled.article`
   overflow-y: auto;
 
   @media (max-width: 743px) {
-    width: calc(100% - 4.1875rem);
+    width: calc(100vw - 4.1875rem);
     max-height: 29.375rem;
     padding: 1 0.75rem;
   }
