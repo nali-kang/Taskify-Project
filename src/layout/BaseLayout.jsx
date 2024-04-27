@@ -60,7 +60,7 @@ const NavbarContainer = styled.nav`
 const MainContainer = styled.main`
   padding-top: 4.38rem;
   padding-left: 18.75rem;
-  width: 100vw;
+  min-width: 100vw;
   min-height: 100vh;
   background-color: ${({ theme }) => theme.color.gray_FA};
   @media (max-width: 743px) {

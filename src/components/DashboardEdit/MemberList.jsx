@@ -15,8 +15,8 @@ const MemberList = ({ id }) => {
     {
       title: '이름',
       dataIndex: 'nickname',
-      render: (value, record) => {
-        return <UserName email={record.email} nickname={value} />;
+      render: (value) => {
+        return <UserName nickname={value} />;
       },
     },
     {
