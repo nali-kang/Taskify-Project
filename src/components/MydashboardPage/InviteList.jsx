@@ -105,7 +105,13 @@ const InviteList = () => {
           }}
         />
       </div>
-      <ListTable column={column} data={inviteList} target={setTarget} reverse={true} />
+      <ListTable
+        column={column}
+        data={inviteList}
+        target={setTarget}
+        reverse={true}
+        nolist={'초대받은 대시보드가 없습니다.'}
+      />
     </InviteContainer>
   );
 };

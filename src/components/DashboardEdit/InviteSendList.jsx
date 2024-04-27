@@ -149,7 +149,7 @@ const InviteSendList = ({ id }) => {
           </button>
         </div>
       </div>
-      <ListTable column={column} data={data?.invitations} />
+      <ListTable column={column} data={data?.invitations} nolist={'초대 내역이 없습니다.'} />
     </SendListContainer>
   );
 };
