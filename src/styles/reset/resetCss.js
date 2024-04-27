@@ -55,7 +55,7 @@ const resetCss = css`
   img,
   video {
     height: auto;
-    max-width: 100%;
+    /* max-width: 100%; */
   }
   iframe {
     border: 0;
@@ -71,6 +71,7 @@ const resetCss = css`
 
   * {
     font-family: 'Pretendard', sans-serif;
+    border: none;
   }
 `;
 

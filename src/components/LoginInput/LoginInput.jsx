@@ -67,11 +67,9 @@ const inputContainer = css`
   border-radius: 8px;
   background: white;
   border: 1px solid gray;
-
   &:focus-within {
     border: 1px solid violet;
   }
-
   &.red {
     border: 1px solid red;
   }
@@ -81,7 +79,6 @@ const input = css`
   width: 100%;
   font-size: 1.6rem;
   line-height: 1;
-
   &:placeholder {
     color: grey;
   }
@@ -98,7 +95,6 @@ const StAuthLabel = styled.label`
   font-size: 1.6rem;
   color: black;
   margin-bottom: 8px;
-
   & ~ label {
     margin-top: 16px;
   }
@@ -106,14 +102,11 @@ const StAuthLabel = styled.label`
 
 const StAuthInputContainer = styled.div`
   ${inputContainer}
-
   padding: 12px 16px;
-
   button {
     width: 24px;
     height: 24px;
   }
-
   input {
     ${input}
     height: 24px;
