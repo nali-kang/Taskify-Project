@@ -1,20 +1,11 @@
 import { styled } from 'styled-components';
 
 export const background = styled.div`
-  width: 100%;
-  z-index: 1;
-  position: absolute;
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.7);
-  height: 121.1rem;
+  padding: 3.2rem 2.8rem 2.8rem 2.8rem;
+  background-color: white;
 `;
 
 export const container = styled.div`
-  padding: 3.2rem 2.8rem 2.8rem 2.8rem;
   flex-shrink: 0;
   border-radius: 0.8rem;
   background: ${({ theme }) => theme.color.white};
@@ -29,9 +20,14 @@ export const container = styled.div`
   }
 `;
 
+export const Text = styled.div`
+  text-align: center;
+  font-size: 24px;
+`;
+
 export const buttonFlex = styled.div`
   margin-top: 2.8rem;
-  justify-content: flex-end;
+  justify-content: center;
   display: flex;
   gap: 1.2rem;
 `;

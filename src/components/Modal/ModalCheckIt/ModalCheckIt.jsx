@@ -1,18 +1,16 @@
 import * as S from './styled';
 
-function ModalCheckIt({ submitButton, text, cancelButton, wrong }) {
+function ModalCheckIt({ confirmButton, text, cancelButton, onClickConfirm }) {
   return (
-    <>
-      <S.background>
-        <S.container height={'25rem'} width={'54rem'}>
-          <S.description>{text}</S.description>
-          <S.buttonFlex>
-            {cancelButton && <S.cancelButton>{cancelButton}</S.cancelButton>}
-            <S.button onClick={wrong}>{submitButton}</S.button>
-          </S.buttonFlex>
-        </S.container>
-      </S.background>
-    </>
+    <S.background>
+      <S.container>
+        <S.Text>{text}</S.Text>
+        <S.buttonFlex>
+          {cancelButton && <S.cancelButton>{cancelButton}</S.cancelButton>}
+          <S.button onClick={onClickConfirm}>{confirmButton}</S.button>
+        </S.buttonFlex>
+      </S.container>
+    </S.background>
   );
 }
 export default ModalCheckIt;
