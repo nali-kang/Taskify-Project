@@ -17,21 +17,6 @@ const BaseLayout = () => {
 
 export default BaseLayout;
 
-// const HeaderContainer = styled.header`
-//   position: fixed;
-//   width: calc(100vw - 18.75rem);
-//   height: 4.38rem;
-//   top: 0;
-//   right: 0;
-//   background-color: ${({ theme }) => theme.color.white};
-//   @media (max-width: 743px) {
-//     width: calc(100vw - 4.1875rem);
-//     height: 3.75rem;
-//   }
-//   @media (min-width: 744px) and (max-width: 1220px) {
-//     width: calc(100vw - 10rem);
-//   }
-// `;
 const MainContainer = styled.main`
   padding-top: 4.38rem;
   padding-left: 18.75rem;

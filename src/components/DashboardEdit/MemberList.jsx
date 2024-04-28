@@ -15,24 +15,26 @@ const MemberList = ({ id }) => {
     {
       title: '이름',
       dataIndex: 'nickname',
-      render: (value) => {
-        return <UserName nickname={value} />;
+      render: (value, record) => {
+        return <UserName nickname={value} img={record?.profileImageUrl} />;
       },
     },
     {
       title: '',
       dataIndex: 'id',
-      render: (value) => {
+      render: (value, record) => {
         return (
           <DeleteButton>
-            <button
-              className="delete_button"
-              onClick={() => {
-                mutationRequest({ memberId: value });
-              }}
-            >
-              삭제
-            </button>
+            {!record.isOwner && (
+              <button
+                className="delete_button"
+                onClick={() => {
+                  mutationRequest({ memberId: value });
+                }}
+              >
+                삭제
+              </button>
+            )}
           </DeleteButton>
         );
       },

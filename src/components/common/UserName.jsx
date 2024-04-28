@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import { hexColorEncode } from '../../common/util';
+import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
 
-const UserName = ({ nickname }) => {
+const UserName = ({ nickname, img, nameHidden = false }) => {
   return (
-    <NameContents color={hexColorEncode(nickname)}>
-      <div className="img_circle">{nickname.slice(0, 1).toUpperCase()}</div>
+    <NameContents color={hexColorEncode(nickname)} nameHidden={nameHidden}>
+      {img ? (
+        <ProfileImg src={img} alt="프로필 이미지" />
+      ) : (
+        <div className="img_circle">{nickname.slice(0, 1).toUpperCase()}</div>
+      )}
       <span className="nickname_text">{nickname}</span>
     </NameContents>
   );
@@ -12,11 +17,21 @@ const UserName = ({ nickname }) => {
 
 export default UserName;
 
+const ProfileImg = styled.img`
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 50%;
+  ${MEDIA_QUERIES.onMobile} {
+    width: 2.125rem;
+    height: 2.125rem;
+  }
+`;
+
 const NameContents = styled.div`
   display: flex;
   gap: 0.75rem;
   align-items: center;
-  @media (max-width: 743px) {
+  ${MEDIA_QUERIES.onMobile} {
     gap: 0.5rem;
   }
   .img_circle {
@@ -32,17 +47,18 @@ const NameContents = styled.div`
     font-size: 1rem;
     font-weight: 600;
 
-    @media (max-width: 743px) {
+    ${MEDIA_QUERIES.onMobile} {
       width: 2.125rem;
       height: 2.125rem;
       font-size: 0.875rem;
     }
   }
   .nickname_text {
-    color: 1px solid ${({ theme }) => theme.color.black_33};
+    color: ${({ theme }) => theme.color.black_33};
     font-size: 1rem;
     font-weight: 400;
-    @media (max-width: 743px) {
+    ${MEDIA_QUERIES.onMobile} {
+      display: ${(props) => (props.nameHidden ? 'none' : 'block')};
       font-size: 0.875rem;
     }
   }
