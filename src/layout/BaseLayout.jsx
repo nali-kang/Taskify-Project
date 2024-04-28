@@ -1,18 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import HeaderLogo from '../components/common/HeaderLogo';
-
-const Header = () => {
-  return <HeaderContainer>header</HeaderContainer>;
-};
-
-const Sidebar = () => {
-  return (
-    <NavbarContainer>
-      <HeaderLogo color={'#5534DA'} />
-    </NavbarContainer>
-  );
-};
+import Header from '../components/common/Header';
+import Sidebar from '../components/sidebar/SideBar';
 
 const BaseLayout = () => {
   return (
@@ -28,35 +17,21 @@ const BaseLayout = () => {
 
 export default BaseLayout;
 
-const HeaderContainer = styled.header`
-  position: fixed;
-  width: calc(100vw - 18.75rem);
-  height: 4.38rem;
-  top: 0;
-  right: 0;
-  background-color: ${({ theme }) => theme.color.white};
-  @media (max-width: 743px) {
-    width: calc(100vw - 4.1875rem);
-    height: 3.75rem;
-  }
-  @media (min-width: 744px) and (max-width: 1220px) {
-    width: calc(100vw - 10rem);
-  }
-`;
-const NavbarContainer = styled.nav`
-  position: fixed;
-  width: 18.75rem;
-  min-height: 100vh;
-  top: 0;
-  left: 0;
-  background-color: ${({ theme }) => theme.color.white};
-  @media (max-width: 743px) {
-    width: 4.1875rem;
-  }
-  @media (min-width: 744px) and (max-width: 1220px) {
-    width: 10rem;
-  }
-`;
+// const HeaderContainer = styled.header`
+//   position: fixed;
+//   width: calc(100vw - 18.75rem);
+//   height: 4.38rem;
+//   top: 0;
+//   right: 0;
+//   background-color: ${({ theme }) => theme.color.white};
+//   @media (max-width: 743px) {
+//     width: calc(100vw - 4.1875rem);
+//     height: 3.75rem;
+//   }
+//   @media (min-width: 744px) and (max-width: 1220px) {
+//     width: calc(100vw - 10rem);
+//   }
+// `;
 const MainContainer = styled.main`
   padding-top: 4.38rem;
   padding-left: 18.75rem;
