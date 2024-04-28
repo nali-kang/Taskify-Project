@@ -22,7 +22,7 @@ export const input = styled.input`
   width: 100%;
   padding: 15px 16px;
   border-radius: 8px;
-  border: 1px solid ${({ wrong, theme }) => (wrong ? theme.color.red : theme.color.violet_55)};
+  border: 1px solid ${({ error, theme }) => (error ? theme.color.red : theme.color.violet_55)};
   background: ${({ theme }) => theme.color.white};
   font-size: 1.6rem;
   font-weight: 400;

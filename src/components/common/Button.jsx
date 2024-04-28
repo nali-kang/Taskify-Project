@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { BUTTON_TYPE } from '../../constants/BUTTON_TYPE';

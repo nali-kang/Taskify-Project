@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import add_icon from '../../assets/icon/add_icon.png';
 
-function ImgUpload({ edit, $small }) {
+const ImgUpload = ({ edit, $small }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -44,7 +44,7 @@ function ImgUpload({ edit, $small }) {
       </Button>
     </Label>
   );
-}
+};
 
 const Label = styled.label`
   position: relative;
@@ -112,6 +112,7 @@ const Overlay = styled.div`
   left: 0;
   width: ${({ $small }) => ($small ? '4.18rem' : '10rem')};
   height: ${({ $small }) => ($small ? '4.18rem' : '10rem')};
+
   justify-content: center;
   align-items: center;
   border-radius: 0.375rem;

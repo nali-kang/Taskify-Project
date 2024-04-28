@@ -50,7 +50,7 @@ export const loginForm = styled.form`
   }
 `;
 
-export const submit = styled.input`
+export const submit = styled.button`
   display: flex;
   width: 100%;
   max-width: 52rem;

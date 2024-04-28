@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { hexColorEncode } from '../../common/util';
 
-const UserName = ({ email, nickname }) => {
+const UserName = ({ nickname }) => {
   return (
-    <NameContents color={hexColorEncode(email)}>
-      <div className="img_circle">{email.slice(0, 1).toUpperCase()}</div>
+    <NameContents color={hexColorEncode(nickname)}>
+      <div className="img_circle">{nickname.slice(0, 1).toUpperCase()}</div>
       <span className="nickname_text">{nickname}</span>
     </NameContents>
   );

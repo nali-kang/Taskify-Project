@@ -1,16 +1,5 @@
-import axios from 'axios';
-import { BASE_URL } from '@constants/constants';
 import { getURL } from '../util';
-
-export const apiAxios = axios.create({
-  baseURL: BASE_URL, // 기본 서버 주소 입력
-  headers: {
-    Accept: 'application/json; charset=UTF-8',
-    Authorization: localStorage.getItem('accessToken')
-      ? 'Bearer ' + localStorage.getItem('accessToken')
-      : null,
-  },
-});
+import instance from '../../lib/axios';
 
 export async function requestHandler({ param, path, method }) {
   let url = '';
@@ -34,7 +23,7 @@ export async function requestHandler({ param, path, method }) {
     options.data = param;
   }
 
-  const response = await apiAxios.request({ url, ...options });
+  const response = await instance.request({ url, ...options });
 
   let resData;
 

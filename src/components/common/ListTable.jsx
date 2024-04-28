@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 
-const ListTable = ({ column, data, target, reverse = false }) => {
+const ListTable = ({ column, data, target, reverse = false, nolist = <>nolist</> }) => {
   const targetDiv = useMemo(() => {
     return <div ref={target} className="target" />;
   }, [target]);
@@ -9,50 +9,56 @@ const ListTable = ({ column, data, target, reverse = false }) => {
     <TableContainer length={column.length}>
       {reverse && (
         <ReverseTable>
-          {data?.map((dataElement) => {
-            return (
-              <div className="data_table_row" key={dataElement.id + 'R'}>
-                {column.map((columnElement) => (
-                  <div key={dataElement.id + columnElement.dataIndex} className="data_col">
-                    <p className="title">{columnElement.title}</p>
-                    {columnElement?.render
-                      ? columnElement?.render(dataElement[columnElement.dataIndex], dataElement)
-                      : dataElement[columnElement.dataIndex]}
-                  </div>
-                ))}
-              </div>
-            );
-          })}
+          {data?.length > 0 ? (
+            data?.map((dataElement) => {
+              return (
+                <div className="data_table_row" key={dataElement.id + 'R'}>
+                  {column.map((columnElement) => (
+                    <div key={dataElement.id + columnElement.dataIndex} className="data_col">
+                      <p className="title">{columnElement.title}</p>
+                      {columnElement?.render
+                        ? columnElement?.render(dataElement[columnElement.dataIndex], dataElement)
+                        : dataElement[columnElement.dataIndex]}
+                    </div>
+                  ))}
+                </div>
+              );
+            })
+          ) : (
+            <Nolist>{nolist}</Nolist>
+          )}
         </ReverseTable>
       )}
 
       <table className={reverse ? 'data_table reverse' : 'data_table'}>
-        <thead>
-          {column.map((e) => (
-            <th key={e.dataIndex} className="header_column">
-              {e.title}
-            </th>
-          ))}
-        </thead>
-        <tbody>
-          {data ? (
-            data?.map((dataElement) => {
-              return (
-                <tr key={dataElement.id} className="table_row">
-                  {column.map((columnElement) => (
-                    <td key={dataElement.id + columnElement.dataIndex} className="table_column">
-                      {columnElement?.render
-                        ? columnElement?.render(dataElement[columnElement.dataIndex], dataElement)
-                        : dataElement[columnElement.dataIndex]}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })
-          ) : (
-            <></>
-          )}
-        </tbody>
+        {data?.length > 0 ? (
+          <>
+            <thead>
+              {column.map((e) => (
+                <th key={e.dataIndex} className="header_column">
+                  {e.title}
+                </th>
+              ))}
+            </thead>
+            <tbody>
+              {data?.map((dataElement) => {
+                return (
+                  <tr key={dataElement.id} className="table_row">
+                    {column.map((columnElement) => (
+                      <td key={dataElement.id + columnElement.dataIndex} className="table_column">
+                        {columnElement?.render
+                          ? columnElement?.render(dataElement[columnElement.dataIndex], dataElement)
+                          : dataElement[columnElement.dataIndex]}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </>
+        ) : (
+          <Nolist>{nolist}</Nolist>
+        )}
       </table>
       {target ? <>{targetDiv}</> : <></>}
     </TableContainer>
@@ -60,6 +66,23 @@ const ListTable = ({ column, data, target, reverse = false }) => {
 };
 
 export default ListTable;
+
+const Nolist = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-gray_9FA6B2, #9fa6b2);
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 5rem 0;
+  @media (max-width: 743px) {
+    font-size: 1rem;
+    padding: 2.5rem 0;
+  }
+`;
 
 const table = css`
   width: 100%;
