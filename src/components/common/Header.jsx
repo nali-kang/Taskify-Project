@@ -1,66 +1,131 @@
 import { useState } from 'react';
+import { debounce } from 'lodash';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import AvatarList from '../dashboard/AvatarList';
-// import users from '../dashboard/mockData';
 import { BUTTON_TYPE } from '../../constants/BUTTON_TYPE';
 import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
-import default_avatar from '../../assets/images/default_avatar.png';
-import crown from '../../assets/icon/crown.png';
 import setting_icon from '../../assets/icon/setting_icon.png';
 import invite_icon from '../../assets/icon/invite_icon.png';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useMemo } from 'react';
+import UserName from './UserName';
+import { useGetRequest } from '../../hooks/useRequest';
+import { useEffect } from 'react';
+import useBooleanState from '../../hooks/useBooleanState';
+import InviteMemberModal from '../Modal/Dashboard/InviteMemberModal';
 
-const Header = ({
-  dashboardName,
-  createdByMe,
-  profileName,
-  profileImgURL,
-  // eslint-disable-next-line no-unused-vars
-  invitedUsers,
-  inviteSendList,
-  myPage,
-  boardId,
-}) => {
-  // eslint-disable-next-line no-unused-vars
-  const [myProfile, setMyProfile] = useState({
-    name: profileName,
-    profileImageUrl: profileImgURL || default_avatar,
+const Header = () => {
+  const [isModalOpen, openModal, closeModal] = useBooleanState();
+  const [userSize, setUserSize] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { dashboardid } = useParams();
+
+  const handleResize = debounce(() => {
+    if (window.innerWidth > 1199) {
+      setUserSize(4);
+    } else {
+      setUserSize(2);
+    }
+  }, 200);
+
+  const user = localStorage.getItem('user');
+
+  const userInfo = useMemo(() => {
+    return JSON.parse(user);
+  }, [user]);
+
+  const curPage = useMemo(() => {
+    if (location.pathname.indexOf('mydashboard') > -1) {
+      return 'mydashboard';
+    } else if (location.pathname.indexOf('mypage') > -1) {
+      return 'mypage';
+    } else {
+      return dashboardid;
+    }
+  }, [location]);
+
+  const { data: dashboardInfo, request: dashboardRequest } = useGetRequest({
+    requestPath: `/dashboards/${dashboardid}`,
+    queryKey: ['dashboard', 'info', dashboardid],
   });
 
-  const navigate = useNavigate();
+  const { data: memberData, request: memberRequest } = useGetRequest({
+    requestPath: `/members`,
+    queryKey: ['members', 'header', dashboardid],
+  });
 
   const handleManageClick = () => {
-    navigate(`/dashboard/${boardId}/edit`);
+    navigate(`/dashboard/${dashboardid}/edit`);
   };
 
-  const users = [];
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!(curPage === 'mydashboard' || curPage === 'mypage')) {
+      dashboardRequest();
+      memberRequest({ dashboardId: dashboardid, page: 1, size: userSize + 1 });
+    }
+  }, [curPage, userSize]);
+
   return (
     <HeaderDiv>
-      <MenuDiv>
-        {dashboardName}
-        {createdByMe && (
-          <img src={crown} alt="Crown Icon" style={{ width: '20px', height: '16px' }} />
-        )}
-      </MenuDiv>
-
-      <BtnUserDiv>
-        <BtnDiv $myPage={myPage}>
-          <BtnStyle onClick={handleManageClick} styleType={BUTTON_TYPE.SECONDARY} size="S">
-            <img src={setting_icon} alt="Setting" />
-            관리
-          </BtnStyle>
-          <BtnStyle onClick={inviteSendList} styleType={BUTTON_TYPE.SECONDARY} size="S">
-            <img src={invite_icon} alt="Invite" />
-            초대하기
-          </BtnStyle>
-        </BtnDiv>
-        <AvatarList max={5} users={users ?? []} />
-        <ProfileDiv style={{ display: myPage ? 'none' : 'flex' }}>
-          <ProfileImg src={myProfile.profileImageUrl} alt="프로필 이미지" width={38} height={38} />
-          <ProfileName>{myProfile.name}</ProfileName>
-        </ProfileDiv>
-      </BtnUserDiv>
+      {curPage === 'mydashboard' || curPage === 'mypage' ? (
+        <>
+          <MenuDiv>{curPage === 'mydashboard' ? '나의 대시보드' : '계정관리'}</MenuDiv>
+          <Link to={'/mypage'}>
+            <UserName
+              nickname={userInfo?.state?.user?.nickname}
+              img={userInfo?.state?.user?.profileImageUrl}
+              nameHidden={true}
+            />
+          </Link>
+        </>
+      ) : (
+        <>
+          <InviteMemberModal
+            isOpen={isModalOpen}
+            closeModal={closeModal}
+            id={dashboardid}
+            onSuccess={() => {
+              alert('대시보드에 초대헀습니다.');
+            }}
+          />
+          <MenuDiv dashboard>
+            <span>{dashboardInfo?.title}</span>
+            {dashboardInfo?.createdByMe && (
+              <img className="crown" src="/src/assets/icon/crown_icon.svg" alt="created by me" />
+            )}
+          </MenuDiv>
+          <ProfileDiv>
+            <BtnDiv>
+              <BtnStyle onClick={handleManageClick} styleType={BUTTON_TYPE.SECONDARY} size="S">
+                <img src={setting_icon} alt="Setting" />
+                관리
+              </BtnStyle>
+              <BtnStyle onClick={openModal} styleType={BUTTON_TYPE.SECONDARY} size="S">
+                <img src={invite_icon} alt="Invite" />
+                초대하기
+              </BtnStyle>
+            </BtnDiv>
+            <AvatarList max={memberData?.totalCount} users={memberData?.members} size={userSize} />
+            <Link to="/mypage">
+              <UserName
+                nickname={userInfo?.state?.user?.nickname}
+                img={userInfo?.state?.user?.profileImageUrl}
+                nameHidden={true}
+              />
+            </Link>
+          </ProfileDiv>
+        </>
+      )}
     </HeaderDiv>
   );
 };
@@ -78,70 +143,33 @@ const HeaderDiv = styled.nav`
   border-top: none;
   border-bottom: 0.1rem solid ${({ theme }) => theme.color.gray_D9};
 
+  padding: 1rem 5rem 1rem 2.5rem;
+
   background-color: ${({ theme }) => theme.color.white};
+  color: ${({ theme }) => theme.color.black_33};
+
   ${MEDIA_QUERIES.onTablet} {
-    width: calc(100vw - 4.1875rem);
-    height: 3.75rem;
+    width: calc(100vw - 10rem);
+    padding: 1rem 2.5rem;
   }
   ${MEDIA_QUERIES.onMobile} {
-    width: calc(100vw - 10rem);
+    width: calc(100vw - 4.1875rem);
+    height: 3.75rem;
+    padding: 0.81rem 0.75rem;
   }
 `;
 
 const MenuDiv = styled.div`
-  display: flex;
-  gap: 0.275rem;
   align-items: center;
-  padding-left: 2rem;
-
   font-weight: 700;
-  font-size: 1.1rem;
-
+  font-size: 1.25rem;
+  gap: 0.5rem;
   ${MEDIA_QUERIES.onTablet} {
-    display: none;
+    display: ${(props) => (props.dashboard ? 'none' : 'flex')};
   }
   ${MEDIA_QUERIES.onMobile} {
-    display: none;
-  }
-`;
-
-const BtnUserDiv = styled.div`
-  position: absolute;
-  right: 0;
-  display: flex;
-  align-items: center;
-`;
-
-const BtnDiv = styled.div`
-  display: flex;
-  gap: 0.55rem;
-  margin-right: 2rem;
-
-  ${MEDIA_QUERIES.onMobile} {
-    gap: 0.33rem;
-  }
-`;
-
-const BtnStyle = styled(Button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.7rem 1.7rem;
-  gap: 0.2rem;
-  width: 6.6rem;
-  height: 2.2rem;
-
-  img {
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.2rem;
-  }
-
-  color: ${({ theme }) => theme.color.gray_9F};
-  font-size: 0.85rem;
-
-  ${MEDIA_QUERIES.onMobile} {
-    padding: 0.6rem 1.2rem;
+    display: ${(props) => (props.dashboard ? 'none' : 'flex')};
+    font-size: 1.125rem;
   }
 `;
 
@@ -149,25 +177,49 @@ const ProfileDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  padding: 0 2.2rem 0 1.76rem;
-  border-left: 1px solid ${({ theme }) => theme.color.gray_D9};
-  gap: 0.55rem;
-
-  ${MEDIA_QUERIES.onMobile} {
-    padding: 0 0.55rem;
+  ${MEDIA_QUERIES.onTablet} {
+    width: 100%;
+    justify-content: flex-end;
   }
-`;
-const ProfileImg = styled.img`
-  border-radius: 50%;
-`;
-const ProfileName = styled.div`
-  font-size: 0.88rem;
-  font-weight: 500;
-
   ${MEDIA_QUERIES.onMobile} {
-    display: none;
+    width: 100%;
+    justify-content: flex-end;
   }
 `;
 
+const BtnDiv = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  margin-right: 2rem;
+
+  ${MEDIA_QUERIES.onMobile} {
+    gap: 0.38rem;
+    margin-right: 1rem;
+  }
+`;
+
+const BtnStyle = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+
+  color: ${({ theme }) => theme.color.gray_78};
+  font-size: 0.875rem;
+  border: 1px solid ${({ theme }) => theme.color.gray_D9};
+
+  img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  ${MEDIA_QUERIES.onMobile} {
+    img {
+      display: none;
+    }
+    padding: 0.4rem 0.75rem;
+    font-size: 0.875rem;
+  }
+`;
 export default Header;
