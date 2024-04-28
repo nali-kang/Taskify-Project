@@ -155,7 +155,7 @@ const HeaderDiv = styled.nav`
   ${MEDIA_QUERIES.onMobile} {
     width: calc(100vw - 4.1875rem);
     height: 3.75rem;
-    padding: 0.81rem 0.75rem;
+    padding: 0.81rem 0.75rem 0.88rem 1.5rem;
   }
 `;
 
