@@ -31,7 +31,7 @@ const ProfileModify = ({ name }) => {
         </InputBox>
       </AlignBox>
 
-      <StorageBtn size="L" styleType={BUTTON_TYPE.PRIMARY} style={{ width: '8.4rem' }}>
+      <StorageBtn size="L" styleType={BUTTON_TYPE.PRIMARY} style={{ width: '4rem' }}>
         저장
       </StorageBtn>
     </Div>
@@ -39,22 +39,22 @@ const ProfileModify = ({ name }) => {
 };
 
 const Div = styled.div`
-  width: 62rem;
-  height: 35.5rem;
-  padding: 3.2rem 2.8rem 2.8rem 2.8rem;
-  border-radius: 0.8rem;
+  width: 34rem;
+  height: 19.525rem;
+  padding: 1.76rem 1.54rem;
+  border-radius: 0.44rem;
   background-color: ${({ theme }) => theme.color.white};
 
   ${MEDIA_QUERIES.onMobile} {
-    width: 28.4rem;
-    height: 45.2rem;
+    width: 15.62rem;
+    height: 24.86rem;
   }
 `;
 
 const AlignBox = styled.div`
   display: flex;
   align-items: center;
-  margin: 3.2rem 0 2.4rem 0;
+  margin: 1.76rem 0 1.32rem 0;
 
   ${MEDIA_QUERIES.onMobile} {
     flex-direction: column;
@@ -67,7 +67,7 @@ const ImgBox = styled.div`
 `;
 
 const Title = styled.span`
-  font-size: 2.4rem;
+  font-size: 1.32rem;
   font-weight: 700;
 `;
 
@@ -75,10 +75,10 @@ const ImgContent = styled.div``;
 
 const InputBox = styled.div`
   flex: 2;
-  margin-left: 1.6rem;
+  margin-left: 0.88rem;
 
   ${MEDIA_QUERIES.onMobile} {
-    margin-top: 2.4rem;
+    margin-top: 1.32rem;
     margin-left: 0;
   }
 `;
@@ -89,19 +89,22 @@ const EmailInput = styled.div`
 `;
 
 const NameInput = styled.div`
-  margin-top: 2rem;
+  margin-top: 1.1rem;
   color: black;
 `;
 
 const StorageBtn = styled(Button)`
-  font-size: 1.4rem;
-  padding: 0.8rem 2.9rem 0.7rem 3rem;
-  margin-left: 48rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.77rem;
+  padding: 0.44rem 1.595rem 0.385rem 1.65rem;
+  margin-left: 26.4rem;
   color: ${({ theme }) => theme.color.white};
   background-color: ${({ theme }) => theme.color.violet};
 
   ${MEDIA_QUERIES.onMobile} {
-    margin-left: 14.5rem;
+    margin-left: 8rem;
   }
 `;
 
