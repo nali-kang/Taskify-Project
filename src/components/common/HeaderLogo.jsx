@@ -1,13 +1,16 @@
 import styled from 'styled-components';
 import { ReactComponent as LogoImage } from '@images/header_logo_main.svg';
 import { ReactComponent as LogoText } from '@images/header_logo_taskify.svg';
+import { Link } from 'react-router-dom';
 
 const HeaderLogo = ({ className, color }) => {
   return (
-    <Logo className={className} color={color}>
-      <LogoImage className="logo_image" />
-      <LogoText className="logo_text" />
-    </Logo>
+    <Link to={'/'}>
+      <Logo className={className} color={color}>
+        <LogoImage className="logo_image" />
+        <LogoText className="logo_text" />
+      </Logo>
+    </Link>
   );
 };
 

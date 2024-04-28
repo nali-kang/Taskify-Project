@@ -13,7 +13,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     request({ dashboardId: dashboardid });
-  }, []);
+  }, [dashboardid]);
   return (
     <DashboardContainer>
       {data?.data?.map((e) => {

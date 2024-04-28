@@ -1,201 +1,202 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import CircleColor from './CircleColor';
-import useDashboardQuery from './useDashboardQuery';
 import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
-import add_dashboard_icon from '../../assets/icon/add_dashboard_icon.png';
-import prev_icon from '../../assets/icon/prev_icon.png';
-import next_icon from '../../assets/icon/next_icon.png';
-import crown from '../../assets/icon/crown.png';
-import logo_icon from '../../assets/icon/logo_icon.png';
-import logo_text from '../../assets/icon/logo_text.png';
+import HeaderLogo from '@components/common/HeaderLogo';
+import useBooleanState from '../../hooks/useBooleanState';
+import { useGetRequest } from '../../hooks/useRequest';
+import PaginationArrow from '../common/PaginationArrow';
+import AddDashboardModal from '../Modal/Dashboard/AddDashboardModal';
+
+const DASHBOARD_SIZE = 10;
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const { dashboardid } = useParams();
   const [page, setPage] = useState(1);
+  const [isModalOpen, openModal, closeModal] = useBooleanState();
 
-  const { data } = useDashboardQuery({
-    navigationMethod: 'pagination',
-    page,
-    size: 8,
+  const { data, request } = useGetRequest({
+    requestPath: '/dashboards',
+    queryKey: ['dashboards', 'sidebar'],
   });
 
-  const dashboards = data?.dashboards;
-  const totalPages = Math.ceil(data?.totalCount / 8);
+  const changePage = useCallback((page) => {
+    setPage(page);
+  }, []);
 
-  const handlePrevBtnClick = () => setPage((prev) => Math.max(1, prev - 1));
-  const handleNextBtnClick = () => setPage((prev) => Math.min(totalPages, prev + 1));
-
-  const handleLogoClick = () => navigate('/');
+  useEffect(() => {
+    request({ navigationMethod: 'pagination', page, size: DASHBOARD_SIZE });
+  }, [page]);
 
   // eslint-disable-next-line no-unused-vars
   const handleDashboardClick = (dashboardId) => navigate(`/dashboard/${dashboardId}`);
 
-  const handleAddDashBoardClick = () => navigate('/mydashboard');
-
   return (
     <Div>
-      <Logo onClick={handleLogoClick}>
-        <img src={logo_icon} alt="Logo" style={{ width: '29px', height: '33px' }} />
-        <img src={logo_text} alt="Logo Text" style={{ width: '80px', height: '22px' }} />
-      </Logo>
-      <AddDashBoard>
-        <AddText>Dash Boards</AddText>
-        <img
-          src={add_dashboard_icon}
-          alt="add dashboard"
-          // eslint-disable-next-line no-console
-          onClick={handleAddDashBoardClick}
-          style={{ width: '20px', height: '20px' }}
-        />
-      </AddDashBoard>
-      <ul>
-        {dashboards?.map((dashboard) => (
-          <ItemDiv key={dashboard.id} onClick={() => handleDashboardClick(dashboard.id)}>
+      <AddDashboardModal isModalOpen={isModalOpen} closeModal={closeModal} />
+      <HeaderLogo color={'#5534DA'} />
+      <DashboardList>
+        <ItemDiv className="add_dashboard" onClick={openModal}>
+          <AddText>Dash Boards</AddText>
+          <img className="add_dashboard_button" src="/src/assets/icon/add_box.png" />
+        </ItemDiv>
+        {data?.dashboards?.map((dashboard) => (
+          <ItemDiv
+            $active={dashboard.id === Number(dashboardid)}
+            key={dashboard.id}
+            onClick={() => handleDashboardClick(dashboard.id)}
+          >
             <CircleColor color={dashboard.color} />
-            <Item $active={dashboard.id === navigate.query.dashboardId}>
-              {dashboard.createdByMe && <img src={crown} alt="created by me" />} &nbsp;
-              {dashboard.title}
+            <Item $active={dashboard.id === Number(dashboardid)}>
+              <span>{dashboard.title}</span>
+              {dashboard.createdByMe && (
+                <img className="crown" src="/src/assets/icon/crown_icon.svg" alt="created by me" />
+              )}
             </Item>
           </ItemDiv>
         ))}
-      </ul>
-      <PageNavigation>
-        <Buttons>
-          <ArrowButton disabled={page <= 1} onClick={handlePrevBtnClick}>
-            <img src={prev_icon} alt="previous icon" />
-          </ArrowButton>
-          <ArrowButton disabled={page >= totalPages} onClick={handleNextBtnClick}>
-            <img src={next_icon} alt="next icon" />
-          </ArrowButton>
-        </Buttons>
-      </PageNavigation>
+      </DashboardList>
+
+      <PagingArea>
+        <PaginationArrow
+          page={page}
+          size={DASHBOARD_SIZE}
+          total={data?.totalCount}
+          changePage={changePage}
+        />
+      </PagingArea>
     </Div>
   );
 };
 
 const Div = styled.div`
   position: fixed;
+  width: 18.75rem;
+  min-height: 100vh;
   top: 0;
   left: 0;
-  z-index: 99;
-  width: 16.5rem;
-  height: 100vh;
-  padding: 0.687rem 0.825rem;
+  padding: 1.25rem 0.75rem;
   border-right: 1px solid ${({ theme }) => theme.color.gray_D9};
   background-color: ${({ theme }) => theme.color.white};
   ${MEDIA_QUERIES.onTablet} {
-    width: 8.8rem;
+    width: 10rem;
+    padding: 0.56rem 0.75rem;
   }
   ${MEDIA_QUERIES.onMobile} {
-    width: 3.685rem;
+    width: 4.1875rem;
+    padding: 1.25rem 0.81rem;
   }
 `;
-
-const Logo = styled.div`
+const DashboardList = styled.div`
   display: flex;
-  align-items: center;
-  margin-bottom: 2.06rem;
-  cursor: pointer;
+  flex-direction: column;
+  padding: 2.375rem 0;
+
   ${MEDIA_QUERIES.onMobile} {
-    margin-left: 0.345rem;
-  }
-`;
-
-const AddDashBoard = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.43rem;
-
-  img {
-    margin-left: auto;
-    cursor: pointer;
+    /* padding: 3.56rem 0.81rem 1.94rem; */
   }
 `;
 
 const AddText = styled.span`
-  padding-top: 1.65%;
-  color: ${({ theme }) => theme.color.gray_9F};
-  margin-right: 5.225rem;
-  margin-left: 0.385rem;
-  font-size: 0.8rem;
+  line-height: normal;
+  color: ${({ theme }) => theme.color.gray_78};
+
+  font-family: Pretendard;
+  font-size: 0.75rem;
+  font-style: normal;
   font-weight: 700;
-  ${MEDIA_QUERIES.onTablet} {
-    margin-right: 1.925rem;
-    margin-top: 0.247rem;
-  }
+
   ${MEDIA_QUERIES.onMobile} {
     display: none;
   }
 `;
 
-const ItemDiv = styled.div`
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 50.181rem;
-  height: 2.117rem;
-  display: inline-block;
+const ItemDiv = styled.button`
+  width: 100%;
+  height: 2.8125rem;
+  display: flex;
   align-items: center;
-  margin-top: 0.467rem;
-  padding: 5.5px;
-  cursor: pointer;
-
+  padding: 0.75rem;
+  border: none;
+  background-color: ${({ $active, theme }) => ($active ? theme.color.violet_8p : 'transparent')};
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border: none;
+  }
   &:hover {
-    border-radius: 0.55rem;
+    border-radius: 0.25rem;
     background: var(--violet-violet-8, #f1effd);
     transition: all 0.1s ease-in-out;
   }
+  &.add_dashboard {
+    justify-content: space-between;
+  }
+
   ${MEDIA_QUERIES.onTablet} {
-    max-width: 7.37rem;
+    height: 2.6875rem;
+  }
+  ${MEDIA_QUERIES.onMobile} {
+    width: 2.5rem;
+    height: 2.5rem;
+    &.add_dashboard {
+      justify-content: center;
+    }
   }
 `;
 
-const Item = styled.li`
-  overflow: hidden;
-  margin-left: 0.728rem;
-  color: ${({ theme }) => theme.color.gray_78};
-  font-size: 0.783rem;
+const Item = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
   font-weight: 500;
-  ${({ $active }) => $active && `font-weight: bold;`}
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
+  line-height: normal;
 
+  ${MEDIA_QUERIES.onTablet} {
+    font-size: 1rem;
+  }
+  ${MEDIA_QUERIES.onMobile} {
+    display: none;
+  }
+
+  span {
+    color: ${({ $active, theme }) => ($active ? theme.color.black_33 : theme.color.gray_78)};
+    max-width: 12.75rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    ${MEDIA_QUERIES.onTablet} {
+      max-width: 4.375rem;
+    }
+  }
+  .crown {
+    ${MEDIA_QUERIES.onTablet} {
+      width: 1.09938rem;
+      height: 0.875rem;
+    }
+  }
+`;
+
+const CircleColor = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 100%;
+  margin-right: 0.5rem;
+  border: 0;
+  background-color: ${(props) => props.color};
+  ${MEDIA_QUERIES.onMobile} {
+    margin: 0 auto;
+  }
+`;
+
+const PagingArea = styled.div`
+  position: fiexd;
+  bottom: 1.75rem;
+  left: 0.75rem;
   ${MEDIA_QUERIES.onMobile} {
     display: none;
   }
 `;
-const PageNavigation = styled.div`
-  display: flex;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  transform: translateY(-1rem);
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 6.6rem;
-  ${MEDIA_QUERIES.onMobile} {
-    display: none;
-  }
-`;
-
-const Buttons = styled.div`
-  display: flex;
-`;
-
-const ArrowButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 4.2rem;
-  height: 4.1rem;
-  padding: 0.66rem;
-  background-color: ${({ theme }) => theme.color.white};
-`;
-
 export default Sidebar;

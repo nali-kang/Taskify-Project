@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useInfinityRequest } from '../../hooks/useRequest';
 import { useEffect, useState } from 'react';
 import { hexColorEncode } from '../../common/util';
+import { queryClient } from '../../App';
 
 const ColumnList = ({ id, title }) => {
   const [cardList, setCardList] = useState([]);
@@ -15,7 +16,11 @@ const ColumnList = ({ id, title }) => {
 
   useEffect(() => {
     fetchNextPage();
-  }, []);
+    return () => {
+      setCardList([]);
+      queryClient.resetQueries({ queryKey: ['cards', id], exact: true });
+    };
+  }, [id]);
 
   useEffect(() => {
     if (data?.pages.length > 0) {
