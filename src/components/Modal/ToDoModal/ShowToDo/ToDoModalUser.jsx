@@ -1,25 +1,16 @@
-import { useEffect, useState } from 'react';
+import UserName from '../../../common/UserName';
 import * as S from './styled';
 
 const ToDoModalUser = ({ user, deadline }) => {
-  const [date, setDate] = useState('');
-
-  useEffect(() => {
-    setDate(deadline);
-  }, [deadline]);
-
   return (
     <S.ToDoModalUser>
       <div>
         <h3>담당자</h3>
-        <div>
-          <img src={user?.image || ''} alt="img" width={30} height={30} />
-          <p>{user?.name}</p>
-        </div>
+        <UserName nickname={user?.nickname} img={user?.profileImageUrl} />
       </div>
       <div>
         <h3>마감일</h3>
-        <p>{date}</p>
+        <p>{deadline}</p>
       </div>
     </S.ToDoModalUser>
   );

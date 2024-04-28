@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import ColumnList from '../components/DashboardPage/ColumnList';
 import { useGetRequest, useMutationRequest } from '../hooks/useRequest';
 import { useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import useBooleanState from '../hooks/useBooleanState';
 import ColumnModal from '../components/Modal/Dashboard/ColumnModal';
 
@@ -13,7 +13,6 @@ const DashboardPage = () => {
     queryKey: ['column', dashboardid],
   });
   const [isModalOpen, openModal, closeModal] = useBooleanState();
-  const [modalInfo, setModalInfo] = useState({});
 
   const {
     request: updateRequest,
@@ -50,7 +49,7 @@ const DashboardPage = () => {
   return (
     <DashboardContainer>
       <ColumnModal
-        modalInfo={modalInfo}
+        modalInfo={{}}
         isModalOpen={isModalOpen}
         onSuccess={(title) => {
           updateColumn(title);
@@ -64,7 +63,6 @@ const DashboardPage = () => {
         <button
           className="new_button"
           onClick={() => {
-            setModalInfo({});
             openModal();
           }}
         >

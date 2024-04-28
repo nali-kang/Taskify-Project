@@ -1,21 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as S from './styled';
 import Button from './Button';
 import ToDoModalComment from './ToDoModalComment';
 import ToDoModalOption from './ToDoModalOption';
 import ToDoModalTag from './ToDoModalTag';
 import ToDoModalUser from './ToDoModalUser';
+import BaseModal from '../../../common/Modal';
 
 const ToDoModal = ({
+  isOpen,
+  colseModal,
   columnName,
-  user,
+  imageUrl,
+  assignee,
   title,
-  content,
-  deadline,
+  description,
+  dueDate,
   tags,
   // img,
 }) => {
-  const [column, setColumn] = useState('todo');
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [renderedOption, setRenderedOption] = useState(null);
@@ -54,7 +57,7 @@ const ToDoModal = ({
   };
 
   const onClickModalClose = () => {
-    return;
+    colseModal();
   };
 
   const handleEditComment = (id, editedComment) => {
@@ -71,43 +74,42 @@ const ToDoModal = ({
     setComments(updatedComments);
   };
 
-  useEffect(() => {
-    setColumn(columnName);
-  }, [columnName]);
-
   return (
     // 커밋오류때문에 추가한 부분
     <>
       {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
 
-      <S.ModalBG>
+      <BaseModal isOpen={isOpen}>
         <S.ModalContainer>
           <S.ModalHeader>
             <h1>{title}</h1>
-            <div>
-              <button onClick={onClickModalOption}>
-                <img src="src/assets/icon/3dot.svg" />
+            <div className="button_area">
+              <button className="modal_button" onClick={onClickModalOption}>
+                <img src="/src/assets/icon/3dot.svg" />
               </button>
-              <button onClick={onClickModalClose}>
-                <img src="src/assets/icon/closeX.svg" />
+              <button className="modal_button" onClick={onClickModalClose}>
+                <img src="/src/assets/icon/closeX.svg" />
               </button>
               {renderedOption}
             </div>
           </S.ModalHeader>
-          <ToDoModalUser user={user} deadline={deadline} />
+          <ToDoModalUser user={assignee} deadline={dueDate} />
           <S.ModalContent>
             <S.ModalTag>
               <div>
                 <h1></h1>
-                <h2>{column}</h2>
+                <h2>{columnName}</h2>
               </div>
               <p>|</p>
               <ToDoModalTag tags={tags} />
             </S.ModalTag>
-            <S.ModalWords>{content}</S.ModalWords>
-            <S.ModalContentImage>
-              {/* <img src="src/assets/images/main/desktop.png" alt="img" /> */}
-            </S.ModalContentImage>
+            <S.ModalWords>{description}</S.ModalWords>
+            {imageUrl && (
+              <S.ModalContentImage>
+                <img src={imageUrl} alt="img" />
+              </S.ModalContentImage>
+            )}
+
             <S.ModalCommentInput>
               <h3>댓글</h3>
               <div>
@@ -124,7 +126,7 @@ const ToDoModal = ({
                   <ToDoModalComment
                     key={index}
                     id={index}
-                    user={user}
+                    user={assignee}
                     comment={commentItem}
                     onEditComment={handleEditComment}
                     onDeleteComment={() => handleDeleteComment(index)}
@@ -134,7 +136,7 @@ const ToDoModal = ({
             </S.ModalCommentInput>
           </S.ModalContent>
         </S.ModalContainer>
-      </S.ModalBG>
+      </BaseModal>
     </>
   );
 };
