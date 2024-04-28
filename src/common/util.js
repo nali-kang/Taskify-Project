@@ -23,9 +23,13 @@ const setHex = (code) => {
 };
 
 export const hexColorEncode = (text) => {
-  const color_r = setHex(text.charCodeAt(0));
-  const color_g = setHex(text.length > 1 ? text.charCodeAt(1) : text.charCodeAt(0));
-  const color_b = setHex(text.length > 2 ? text.charCodeAt(2) : text.charCodeAt(0));
+  if (text?.length > 0) {
+    const color_r = setHex(text.charCodeAt(0));
+    const color_g = setHex(text.length > 1 ? text.charCodeAt(1) : text.charCodeAt(0));
+    const color_b = setHex(text.length > 2 ? text.charCodeAt(2) : text.charCodeAt(0));
 
-  return `#${(color_r + color_g + color_b).slice(0, 6)}`;
+    return `#${(color_r + color_g + color_b).slice(0, 6)}`;
+  } else {
+    return '#ffffff';
+  }
 };
