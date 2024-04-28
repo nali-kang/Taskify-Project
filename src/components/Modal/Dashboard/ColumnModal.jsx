@@ -1,69 +1,28 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { useMutationRequest } from '../../../hooks/useRequest';
 import BaseModal from '../../common/Modal';
-import SelectColorButton from '../../common/SelectColorButton';
 
-const AddDashboardModal = ({ isModalOpen, closeModal }) => {
-  const navigate = useNavigate();
-  const [color, setColor] = useState('');
-  const [modalInput, setModalInput] = useState('');
+const ColumnModal = ({ modalInfo, isModalOpen, onSuccess, closeModal }) => {
+  // modal setting
+  const [modalInput, setModalInput] = useState(modalInfo?.title ?? '');
 
   useEffect(() => {
-    setColor('');
-    setModalInput('');
-  }, []);
-
-  const {
-    data: dashboardData,
-    request: dashboardRequest,
-    isSuccess: dashboardIsSuccess,
-    isError: dashboardIsError,
-    error: dashboardError,
-  } = useMutationRequest({
-    requestPath: `/dashboards`,
-    queryKey: ['dashboard', 'create'],
-    method: 'POST',
-  });
-
-  const addDashboard = useCallback(() => {
-    if (modalInput === '') {
-      alert('대시보드 제목을 입력해주세요.');
-    } else if (color === '') {
-      alert('색상을 선택해주세요.');
-    } else {
-      dashboardRequest({ title: modalInput, color });
-    }
-  });
-
-  useEffect(() => {
-    if (dashboardIsSuccess) {
-      setColor('');
-      setModalInput('');
-      closeModal();
-      navigate(`/dashboard/${dashboardData?.id}`);
-    }
-    if (dashboardIsError) {
-      alert(dashboardError?.response?.data?.message ?? '오류가 발생했습니다.');
-    }
-  }, [dashboardIsSuccess, dashboardIsError]);
+    setModalInput(modalInfo?.title ?? '');
+  }, [modalInfo]);
 
   return (
     <BaseModal isOpen={isModalOpen}>
       <Container>
-        <h1 className="modal_title">새로운 대시보드</h1>
+        <h1 className="modal_title">{modalInfo?.id ? '컬럼 관리' : '새 컬럼 생성'}</h1>
         <InputArea>
-          <strong>대시보드 이름</strong>
-          <input onChange={(e) => setModalInput(e.target.value)} />
+          <strong>이름</strong>
+          <input onChange={(e) => setModalInput(e.target.value)} value={modalInput} />
         </InputArea>
-        <SelectColorButton color={color} setColor={(c) => setColor(c)} />
         <ButtonArea>
           <button
             className="cancel_button"
             onClick={() => {
-              setColor('');
-              setModalInput('');
+              //   setModalInput('');
               closeModal();
             }}
           >
@@ -72,10 +31,10 @@ const AddDashboardModal = ({ isModalOpen, closeModal }) => {
           <button
             className="invite_button"
             onClick={() => {
-              addDashboard(modalInput, color);
+              onSuccess(modalInput);
             }}
           >
-            생성
+            {modalInfo?.id ? '변경' : '생성'}
           </button>
         </ButtonArea>
       </Container>
@@ -83,17 +42,17 @@ const AddDashboardModal = ({ isModalOpen, closeModal }) => {
   );
 };
 
-export default AddDashboardModal;
+export default ColumnModal;
 
 const Container = styled.div`
   width: 33.75rem;
-  height: 20.875rem;
-  background-color: white;
+  height: 17.25rem;
+  background-color: ${({ theme }) => theme.color.white};
   border-radius: 0.5rem;
   padding: 2rem 1.75rem 1.75rem 1.75rem;
   @media (max-width: 743px) {
     width: 20.4375rem;
-    height: 18.3125rem;
+    height: 15.0625rem;
     padding: 1.75rem 1.25rem;
   }
   .modal_title {
@@ -172,8 +131,6 @@ const ButtonArea = styled.div`
   align-items: center;
   justify-content: end;
   gap: 0.75rem;
-  margin-top: 1.75rem;
-
   @media (max-width: 743px) {
     margin-top: 1.5rem;
     gap: 0.69rem;

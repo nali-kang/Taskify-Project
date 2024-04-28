@@ -1,11 +1,15 @@
 import styled from 'styled-components';
-import { useInfinityRequest } from '../../hooks/useRequest';
-import { useEffect, useState } from 'react';
+import { useInfinityRequest, useMutationRequest } from '../../hooks/useRequest';
+import { useCallback, useEffect, useState } from 'react';
 import { hexColorEncode } from '../../common/util';
 import { queryClient } from '../../App';
+import ColumnModal from '../Modal/Dashboard/ColumnModal';
+import useBooleanState from '../../hooks/useBooleanState';
 
 const ColumnList = ({ id, title }) => {
   const [cardList, setCardList] = useState([]);
+  const [isModalOpen, openModal, closeModal] = useBooleanState();
+  const [modalInfo, setModalInfo] = useState({});
 
   const { data, fetchNextPage, setTarget } = useInfinityRequest({
     queryKey: ['cards', id],
@@ -13,6 +17,34 @@ const ColumnList = ({ id, title }) => {
     requestPath: '/cards',
     method: 'GET',
   });
+
+  const {
+    request: updateRequest,
+    isSuccess,
+    isError,
+    error,
+  } = useMutationRequest({
+    requestPath: `/columns/${id}`,
+    queryKey: ['column', 'update', id],
+    method: 'PUT',
+  });
+
+  const updateColumn = useCallback(
+    (title) => {
+      updateRequest({ title });
+    },
+    [id],
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      window.location.reload();
+      closeModal();
+    }
+    if (isError) {
+      alert(error?.response?.data?.message ?? '오류가 발생했습니다.');
+    }
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     fetchNextPage();
@@ -30,6 +62,14 @@ const ColumnList = ({ id, title }) => {
 
   return (
     <ColumnContainer>
+      <ColumnModal
+        modalInfo={modalInfo}
+        isModalOpen={isModalOpen}
+        onSuccess={(title) => {
+          updateColumn(title);
+        }}
+        closeModal={closeModal}
+      />
       <ColumnTitle color="#333333">
         <div className="title_area">
           <img className="dot" />
@@ -38,7 +78,13 @@ const ColumnList = ({ id, title }) => {
           </h1>
           <p className="count">{cardList?.length ?? 0}</p>
         </div>
-        <button className="setting_button">
+        <button
+          className="setting_button"
+          onClick={() => {
+            setModalInfo({ id, title });
+            openModal();
+          }}
+        >
           <img src="/src/assets/icon/setting_icon.svg" />
         </button>
       </ColumnTitle>
