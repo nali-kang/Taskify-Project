@@ -85,7 +85,7 @@ const MemberList = ({ id }) => {
           showPageInfo={true}
         />
       </div>
-      <ListTable column={column} data={data?.members} />
+      <ListTable column={column} data={data?.members} nolist={'구성원이 존재하지 않습니다.'} />
     </MemberListContainer>
   );
 };
