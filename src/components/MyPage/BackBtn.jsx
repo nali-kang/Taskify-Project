@@ -22,7 +22,7 @@ const Div = styled.div`
   align-items: center;
   padding-bottom: 1.375rem;
   cursor: pointer;
-  margin-top: 4rem;
+  margin-bottom: 1rem;
 `;
 
 const Text = styled.span`
