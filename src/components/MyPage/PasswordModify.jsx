@@ -65,7 +65,7 @@ const PasswordModify = () => {
         <StorageBtn
           size="L"
           styleType={BUTTON_TYPE.PRIMARY}
-          style={{ width: '8.4rem' }}
+          style={{ width: '4rem' }}
           disabled={isDisabled}
           onClick={handleChangePW}
         >
@@ -77,51 +77,54 @@ const PasswordModify = () => {
 };
 
 const Div = styled.div`
-  width: 62rem;
-  height: 41.5rem;
-  padding: 3.2rem 2.8rem 2.8rem 2.8rem;
-  margin: 1.2rem 2rem 0 0;
-  border-radius: 0.8rem;
+  width: 34rem;
+  height: 22.8rem;
+  padding: 1.8rem 1.5rem 1.5rem 1.5rem;
+  margin: 0.66rem 1.1rem 0 0;
+  border-radius: 0.44rem;
   background-color: ${({ theme }) => theme.color.white};
 
   ${MEDIA_QUERIES.onMobile} {
-    width: 28.4rem;
-    height: 45.2rem;
-    margin-top: 1.2rem;
+    width: 15.6rem;
+    height: 24.86rem;
+    margin-top: 0.66rem;
   }
 `;
 
 const Div2 = styled.div``;
 
 const Title = styled.span`
-  font-size: 2.4rem;
+  font-size: 1.32rem;
   font-weight: 700;
 `;
 
 const PwContent = styled.div`
-  margin-top: 1.2rem;
+  margin-top: 0.66rem;
 
   & > * {
-    margin-top: 2rem;
+    margin-top: 1.1rem;
   }
 `;
 
 const ErrorMessage = styled.div`
   color: ${({ theme }) => theme.color.red};
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
+  font-size: 0.66rem;
+  margin-top: 0.275rem;
 `;
 
 const StorageBtn = styled(Button)`
-  font-size: 1.4rem;
-  padding: 0.8rem 2.9rem 0.7rem 3rem;
-  margin-left: 48rem;
-  margin-top: 2.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.77rem;
+  padding: 0.45rem 1.6rem 0.385rem 1.6rem;
+  margin-left: 26.4rem;
+  margin-top: 1.32rem;
   color: ${({ theme }) => theme.color.white};
   background-color: ${({ theme }) => theme.color.violet};
 
   ${MEDIA_QUERIES.onMobile} {
-    margin-left: 14.5rem;
+    margin-left: 7.975rem;
   }
 `;
 export default PasswordModify;
