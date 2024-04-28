@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import ColumnList from '../components/DashboardPage/ColumnList';
-import { useGetRequest } from '../hooks/useRequest';
+import { useGetRequest, useMutationRequest } from '../hooks/useRequest';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import useBooleanState from '../hooks/useBooleanState';
+import ColumnModal from '../components/Modal/Dashboard/ColumnModal';
 
 const DashboardPage = () => {
   const { dashboardid } = useParams();
@@ -10,17 +12,62 @@ const DashboardPage = () => {
     requestPath: '/columns',
     queryKey: ['column', dashboardid],
   });
+  const [isModalOpen, openModal, closeModal] = useBooleanState();
+  const [modalInfo, setModalInfo] = useState({});
+
+  const {
+    request: updateRequest,
+    isSuccess,
+    isError,
+    error,
+  } = useMutationRequest({
+    requestPath: `/columns`,
+    queryKey: ['column', 'create'],
+    method: 'POST',
+  });
+
+  const updateColumn = useCallback(
+    (title) => {
+      updateRequest({ title, dashboardId: Number(dashboardid) });
+    },
+    [dashboardid],
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      request({ dashboardId: dashboardid });
+      closeModal();
+    }
+    if (isError) {
+      alert(error?.response?.data?.message ?? '오류가 발생했습니다.');
+    }
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     request({ dashboardId: dashboardid });
   }, [dashboardid]);
+
   return (
     <DashboardContainer>
+      <ColumnModal
+        modalInfo={modalInfo}
+        isModalOpen={isModalOpen}
+        onSuccess={(title) => {
+          updateColumn(title);
+        }}
+        closeModal={closeModal}
+      />
       {data?.data?.map((e) => {
         return <ColumnList key={e.id} {...e} />;
       })}
       <NewColumnButton>
-        <button className="new_button">
+        <button
+          className="new_button"
+          onClick={() => {
+            setModalInfo({});
+            openModal();
+          }}
+        >
           새로운 컬럼 추가하기
           <img src="/src/assets/icon/dashboard_add_icon.svg" />
         </button>
