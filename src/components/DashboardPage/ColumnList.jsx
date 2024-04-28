@@ -5,10 +5,12 @@ import { hexColorEncode } from '../../common/util';
 import { queryClient } from '../../App';
 import ColumnModal from '../Modal/Dashboard/ColumnModal';
 import useBooleanState from '../../hooks/useBooleanState';
+import ToDoModal from '../Modal/ToDoModal/ShowToDo/ToDoModal';
 
 const ColumnList = ({ id, title }) => {
   const [cardList, setCardList] = useState([]);
   const [isModalOpen, openModal, closeModal] = useBooleanState();
+  const [isCardModal, openCardModal, closeCardModal] = useBooleanState();
   const [modalInfo, setModalInfo] = useState({});
 
   const { data, fetchNextPage, setTarget } = useInfinityRequest({
@@ -63,25 +65,23 @@ const ColumnList = ({ id, title }) => {
   return (
     <ColumnContainer>
       <ColumnModal
-        modalInfo={modalInfo}
+        modalInfo={{ id, title }}
         isModalOpen={isModalOpen}
         onSuccess={(title) => {
           updateColumn(title);
         }}
         closeModal={closeModal}
       />
+      <ToDoModal isOpen={isCardModal} colseModal={closeCardModal} {...modalInfo} />
       <ColumnTitle color="#333333">
         <div className="title_area">
           <img className="dot" />
-          <h1 className="title">
-            {title} {id}
-          </h1>
+          <h1 className="title">{title}</h1>
           <p className="count">{cardList?.length ?? 0}</p>
         </div>
         <button
           className="setting_button"
           onClick={() => {
-            setModalInfo({ id, title });
             openModal();
           }}
         >
@@ -97,6 +97,10 @@ const ColumnList = ({ id, title }) => {
             <button
               key={e.id}
               className={'card_default column_card' + (e?.imageUrl ? '' : ' no_image')}
+              onClick={() => {
+                setModalInfo({ ...e, columnName: title });
+                openCardModal();
+              }}
             >
               {e?.imageUrl && <img className="card_img" src={e?.imageUrl} />}
               <strong className="title">{e.title}</strong>

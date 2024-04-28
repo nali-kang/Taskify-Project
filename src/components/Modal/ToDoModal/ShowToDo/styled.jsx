@@ -25,14 +25,13 @@ export const ModalBG = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  width: 73rem;
-  max-width: 730px;
-  max-height: 763px;
+  width: 45.625rem;
+  max-height: 47.6875rem;
   position: relative;
   border: 1px solid ${({ theme }) => theme.color.gray_D9};
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.white};
-
+  color: #000;
   @media all and (max-width: 1199px) {
     width: 68rem;
   }
@@ -58,28 +57,37 @@ export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 24px 28px;
+  padding: 2rem 1.75rem 1.5rem;
 
-  & h1 {
-    font-size: 24px;
-    line-height: 0;
+  h1 {
+    color: ${({ theme }) => theme.color.black_33};
+    font-size: 1.5rem;
     font-weight: 700;
+    line-height: normal;
+    margin: 0;
   }
 
-  & > div {
+  .button_area {
     position: relative;
-  }
+    display: flex;
+    gap: 1.5rem;
+    .modal_button {
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      background: transparent;
+      border: none;
 
-  & > div > button {
-    width: 28px;
-    height: 28px;
-    position: relative;
-    background: none;
-    border: none;
-  }
-
-  & > div > button:first-child {
-    margin-right: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:focus,
+      &:focus-visible,
+      &:hover {
+        border: none;
+        outline: none;
+      }
+    }
   }
 `;
 
@@ -131,18 +139,19 @@ export const ToDoImg = styled.div`
   }
 `;
 export const ToDoModalUser = styled.div`
-  width: 200px;
-  height: 155px;
+  width: 12.5rem;
+  height: 9.6875rem;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 1rem;
   flex-direction: column;
   background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.gray_D9};
-  border-radius: 8px;
+  border-radius: 0.5rem;
+
   position: absolute;
-  top: 85px;
-  right: 28px;
+  top: 5.31rem;
+  right: 1.75rem;
 
   @media all and (max-width: 767px) {
     width: 100%;
@@ -152,14 +161,14 @@ export const ToDoModalUser = styled.div`
   }
 
   & > div {
-    height: 45px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
   }
 
   & h3 {
-    font-size: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.25rem; /* 166.667% */
   }
 
   & p {
@@ -284,7 +293,7 @@ export const ModalContentImage = styled.div`
   border-radius: 1rem;
   overflow: hidden;
   & img {
-    object-fit: cover;
+    width: 100%;
   }
   @media all and (max-width: 1199px) {
     width: 41rem;
@@ -323,6 +332,7 @@ export const ModalCommentInput = styled.div`
     width: 100%;
     height: 110px;
     padding: 16px;
+    background-color: #fff;
     border: 1px solid ${({ theme }) => theme.color.gray_D9};
     border-radius: 6px;
     font-size: 14px;
