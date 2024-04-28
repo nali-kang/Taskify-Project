@@ -3,21 +3,18 @@ import MEDIA_QUERIES from '../constants/MEDIA_QUERIES';
 import BackBtn from '../components/MyPage/BackBtn';
 import ProfileModify from '../components/MyPage/ProfileModify';
 import PasswordModify from '../components/MyPage/PasswordModify';
-import DashLayout from '../layout/DashLayout';
 
 const MyPage = () => {
   return (
-    <DashLayout myPage>
-      <Div>
-        <ContentDiv>
-          <ContentBox>
-            <BackBtn />
-            <ProfileModify name="닉네임을 입력해주세요" />
-            <PasswordModify />
-          </ContentBox>
-        </ContentDiv>
-      </Div>
-    </DashLayout>
+    <Div>
+      <ContentDiv>
+        <ContentBox>
+          <BackBtn />
+          <ProfileModify name="닉네임을 입력해주세요" />
+          <PasswordModify />
+        </ContentBox>
+      </ContentDiv>
+    </Div>
   );
 };
 
@@ -38,8 +35,8 @@ const ContentDiv = styled.div`
 
 const ContentBox = styled.div`
   position: absolute;
-  top: 0.05rem;
-  left: 16.5rem;
+  top: 5rem;
+  left: 19rem;
   display: flex;
   flex-direction: column;
   height: 55rem;

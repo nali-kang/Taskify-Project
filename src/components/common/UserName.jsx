@@ -3,12 +3,13 @@ import { hexColorEncode } from '../../common/util';
 import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
 
 const UserName = ({ nickname, img, nameHidden = false }) => {
+  const firstChar = typeof nickname === 'string' ? nickname.slick(0, 1).toUpperCase() : '';
   return (
     <NameContents color={hexColorEncode(nickname)} nameHidden={nameHidden}>
       {img ? (
         <ProfileImg src={img} alt="프로필 이미지" />
       ) : (
-        <div className="img_circle">{nickname.slice(0, 1).toUpperCase()}</div>
+        <div className="img_circle">{firstChar}</div>
       )}
       <span className="nickname_text">{nickname}</span>
     </NameContents>
