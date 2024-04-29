@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import MEDIA_QUERIES from '../../../../constants/MEDIA_QUERIES';
 
 export const StyledButton = styled.button`
   display: flex;
@@ -386,6 +387,36 @@ export const ModalComment = styled.li`
   margin-bottom: 20px;
   display: flex;
   align-items: flex-start;
+
+  .img_circle {
+    width: 2.375rem;
+    height: 2.375rem;
+    border-radius: 100%;
+    background-color: ${(props) => props.color};
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Montserrat;
+    font-size: 1rem;
+    font-weight: 600;
+
+    ${MEDIA_QUERIES.onMobile} {
+      width: 2.125rem;
+      height: 2.125rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  .nickname_text {
+    color: ${({ theme }) => theme.color.black_33};
+    font-size: 1rem;
+    font-weight: 400;
+    ${MEDIA_QUERIES.onMobile} {
+      display: ${(props) => (props.nameHidden ? 'none' : 'block')};
+      font-size: 0.875rem;
+    }
+  }
 `;
 
 export const ModalCommentImg = styled.div`

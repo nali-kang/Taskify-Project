@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const inputWrap = styled.div`
   width: 100%;
   max-width: 52rem;
-  height: 7.7rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -22,7 +21,7 @@ export const input = styled.input`
   width: 100%;
   padding: 15px 16px;
   border-radius: 8px;
-  border: 1px solid ${({ error, theme }) => (error ? theme.color.red : theme.color.violet_55)};
+  border: 1px solid ${({ error, theme }) => (error ? theme.color.red : theme.color.gray_D9)};
   background: ${({ theme }) => theme.color.white};
   font-size: 1.6rem;
   font-weight: 400;

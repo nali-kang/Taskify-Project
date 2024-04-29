@@ -85,6 +85,8 @@ const ColumnList = ({ id, title, columnRequest }) => {
         isOpen={isCardModal}
         closeModal={closeCardModal}
         setCardList={setCardList}
+        dashboardId={dashboardid}
+        columnId={id}
         {...modalInfo}
       />
       <ColumnTitle color="#333333">
