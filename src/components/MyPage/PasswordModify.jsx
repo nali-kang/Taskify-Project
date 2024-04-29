@@ -4,6 +4,8 @@ import Button from '../common/Button';
 import styled from 'styled-components';
 import { BUTTON_TYPE } from '../../constants/BUTTON_TYPE';
 import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
+import PasswordModal from '../Modal/PasswordModal';
+import usePasswordModify from '../../hooks/usePasswordModify';
 
 const PasswordModify = () => {
   const [currentPW, setCurrentPW] = useState(''); // 현재 비밀번호 상태
@@ -11,8 +13,7 @@ const PasswordModify = () => {
   const [confirmPW, setConfirmPW] = useState(''); // 새 비밀번호 확인 상태
   const [pwMiss, setPwMiss] = useState(false);
 
-  // 변경 버튼 비활성화 여부 확인!!
-  const isDisabled = !currentPW || !newPW || !confirmPW || pwMiss;
+  const { mutate: passwordModify, open, setOpen, modalMessage } = usePasswordModify();
 
   const checkPWMatch = () => {
     if (newPW !== confirmPW) {
@@ -23,14 +24,14 @@ const PasswordModify = () => {
   };
 
   const handleChangePW = () => {
-    if (currentPW !== '1234') {
-      //예시
-      alert('현재 비밀번호가 틀립니다.');
-    } else if (!pwMiss && newPW && confirmPW && newPW === confirmPW) {
-      //비밀번호 변경 처리 추가
-      alert('비밀번호가 변경되었습니다.');
+    if (!pwMiss && currentPW && newPW && confirmPW) {
+      passwordModify({ nowPassword: currentPW, newPassword: newPW });
+    } else {
+      setPwMiss(true);
     }
   };
+
+  const isDisabled = !currentPW || !newPW || !confirmPW || pwMiss;
 
   return (
     <Div>
@@ -40,21 +41,21 @@ const PasswordModify = () => {
           <InputField
             label="현재 비밀번호"
             id="current-password"
-            type="text"
+            type="password"
             placeholder="현재 비밀번호 입력"
             onChange={(e) => setCurrentPW(e.target.value)}
           />
           <InputField
             label="새 비밀번호"
             id="new-password"
-            type="text"
+            type="password"
             placeholder="새 비밀번호 입력"
             onChange={(e) => setNewPW(e.target.value)}
           />
           <InputField
             label="새 비밀번호 확인"
             id="confirm-password"
-            type="text"
+            type="password"
             placeholder="새 비밀번호 입력"
             onBlur={checkPWMatch}
             onChange={(e) => setConfirmPW(e.target.value)}
@@ -72,6 +73,7 @@ const PasswordModify = () => {
           변경
         </StorageBtn>
       </Div2>
+      <PasswordModal isModalOpen={open} onClose={() => setOpen(false)} message={modalMessage} />
     </Div>
   );
 };
