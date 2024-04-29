@@ -81,7 +81,12 @@ const ColumnList = ({ id, title, columnRequest }) => {
         }}
         closeModal={closeModal}
       />
-      <ToDoModal isOpen={isCardModal} colseModal={closeCardModal} {...modalInfo} />
+      <ToDoModal
+        isOpen={isCardModal}
+        closeModal={closeCardModal}
+        setCardList={setCardList}
+        {...modalInfo}
+      />
       <ColumnTitle color="#333333">
         <div className="title_area">
           <img className="dot" />
