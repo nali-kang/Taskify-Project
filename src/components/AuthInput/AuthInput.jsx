@@ -1,6 +1,8 @@
 import * as S from './styled';
 import { forwardRef } from 'react';
 import useBooleanState from '../../hooks/useBooleanState';
+import eyeOffIcon from '@icon/eyeOffIcon.svg';
+import eyeOnIcon from '@icon/eyeOffIcon.svg';
 
 const AuthInput = forwardRef(function AuthInput(
   { name, data, placeholder, label, error, onBlur, onChange, value },
@@ -35,7 +37,7 @@ const AuthInput = forwardRef(function AuthInput(
             <S.input
               name={name}
               ref={ref}
-              type={isPassword ? 'password' : 'text'}
+              type={isPassword ? 'text' : 'password'}
               id={data + label}
               placeholder={placeholder}
               onChange={onChange}
@@ -44,11 +46,13 @@ const AuthInput = forwardRef(function AuthInput(
               error={error}
             />
             <S.imageWrap onClick={togglePassword}>
-              {isPassword ? (
+              {!isPassword ? <img src={eyeOffIcon} /> : <img src={eyeOnIcon} />}
+
+              {/* {!isPassword ? (
                 <img src="src/assets/icon/eyeOffIcon.svg" alt="비밀번호 숨기려면 클릭" />
               ) : (
                 <img src="src/assets/icon/eyeOnIcon.svg" alt="비밀번호 숨기려면 클릭" />
-              )}
+              )} */}
             </S.imageWrap>
           </S.inputInner>
           {error &&
