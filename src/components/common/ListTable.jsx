@@ -92,7 +92,7 @@ const table = css`
 
 const TableContainer = styled.div`
   width: 100%;
-  max-height: 29.94rem;
+  max-height: 29rem;
   overflow-y: auto;
   .target {
     height: 1px;
