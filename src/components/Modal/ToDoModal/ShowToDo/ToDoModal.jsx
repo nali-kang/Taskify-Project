@@ -7,23 +7,26 @@ import ToDoModalTag from './ToDoModalTag';
 import ToDoModalUser from './ToDoModalUser';
 import BaseModal from '../../../common/Modal';
 import useBooleanState from '../../../../hooks/useBooleanState';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import instance from '../../../../lib/axios';
 
 const ToDoModal = ({
   id,
+  dashboardId,
+  columnId,
   isOpen,
   closeModal,
   columnName,
-  imageUrl,
   assignee,
   title,
   description,
   dueDate,
   tags,
   setCardList,
-  // img,
+  imageUrl,
 }) => {
+  const queryClient = useQueryClient();
+
   // FIXME: startEdit 수정
   const [isEdit, startEdit] = useBooleanState();
 
@@ -38,46 +41,72 @@ const ToDoModal = ({
     },
   });
 
-  const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]);
-  // const [error, setError] = useState(null); // 여기에 error 상태 추가
+  // 댓글 조회
+  const { data: commentsResponse } = useQuery({
+    queryKey: ['comments', id],
+    queryFn: async () => {
+      const { data } = await instance.get('/comments', {
+        params: {
+          cardId: id,
+          size: 10,
+          page: 1,
+        },
+      });
 
+      return data;
+    },
+    enabled: !!id,
+  });
+
+  // 댓글 작성
+  const { mutateAsync: createComments } = useMutation({
+    mutationFn: async (request) => {
+      const { data } = await instance.post('/comments', request);
+
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments', id],
+      });
+    },
+  });
+
+  // 댓글 수정
+  const { mutateAsync: updateComment } = useMutation({
+    mutationFn: async (request) => {
+      const { commentId, content } = request;
+
+      const { data } = await instance.put(`/comments/${commentId}`, {
+        content,
+      });
+
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments', id],
+      });
+    },
+  });
+
+  // 댓글 삭제
+  const { mutateAsync: deleteComment } = useMutation({
+    mutationFn: async (commentId) => {
+      const { data } = await instance.delete(`/comments/${commentId}`);
+
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments', id],
+      });
+    },
+  });
+
+  const [comment, setComment] = useState('');
   const handleCommentChange = (e) => {
     setComment(e.target.value);
-  };
-
-  // const handleCommentSubmit = () => {
-  //   try {
-  //     const currentTime = new Date().toLocaleString();
-  //     const newComment = {
-  //       text: comment,
-  //       time: currentTime,
-  //     };
-
-  //     setComments((prevComments) => [
-  //       ...prevComments,
-  //       newComment,
-  //     ]);
-  //     setError(null); // 커밋오류로 여기에 error 상태초기화 추가
-  //   } catch (err) {
-  //     console.log("댓글 추가 중 오류 발생");
-  //   }
-  //   // 실제 서버로 댓글을 전송하는 로직 추가해야됨!
-  //   setComment("");
-  // };
-
-  const handleEditComment = (id, editedComment) => {
-    setComments((prevComments) => {
-      return prevComments.map((comment, i) =>
-        i === id ? { ...comment, text: editedComment } : comment,
-      );
-    });
-  };
-
-  const handleDeleteComment = (id) => {
-    const updatedComments = [...comments];
-    updatedComments.splice(id, 1);
-    setComments(updatedComments);
   };
 
   const handleClickDelete = async () => {
@@ -87,6 +116,38 @@ const ToDoModal = ({
 
     closeTodoModalOption();
     closeModal();
+  };
+
+  const handleClickCreateComment = async () => {
+    const request = {
+      content: comment,
+      cardId: id,
+      columnId,
+      dashboardId,
+    };
+
+    try {
+      await createComments(request);
+      setComment('');
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleClickUpdateComment = async (request) => {
+    try {
+      await updateComment(request);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleClickDeleteComment = async (commentId) => {
+    try {
+      await deleteComment(commentId);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -140,18 +201,20 @@ const ToDoModal = ({
                     value={comment}
                     onChange={handleCommentChange}
                   />
-                  <Button>입력</Button>
-                  {/* <Button onClick={handleCommentSubmit}>입력</Button> */}
+                  <Button onClick={handleClickCreateComment}>입력</Button>
                 </div>
+
+                {/* TODO: 댓글 보여져야 하는 부분  */}
                 <ul>
-                  {comments.map((commentItem, index) => (
+                  {commentsResponse?.comments?.map((commentItem, index) => (
                     <ToDoModalComment
                       key={index}
-                      id={index}
+                      id={commentItem.id}
                       user={assignee}
                       comment={commentItem}
-                      onEditComment={handleEditComment}
-                      onDeleteComment={() => handleDeleteComment(index)}
+                      onEditComment={handleClickUpdateComment}
+                      onDeleteComment={handleClickDeleteComment}
+                      // onDeleteComment={() => handleDeleteComment(index)}
                     />
                   ))}
                 </ul>
@@ -165,3 +228,40 @@ const ToDoModal = ({
 };
 
 export default ToDoModal;
+
+// const [comments, setComments] = useState([]);
+// const [error, setError] = useState(null); // 여기에 error 상태 추가
+
+// const handleCommentSubmit = () => {
+//   try {
+//     const currentTime = new Date().toLocaleString();
+//     const newComment = {
+//       text: comment,
+//       time: currentTime,
+//     };
+
+//     setComments((prevComments) => [
+//       ...prevComments,
+//       newComment,
+//     ]);
+//     setError(null); // 커밋오류로 여기에 error 상태초기화 추가
+//   } catch (err) {
+//     console.log("댓글 추가 중 오류 발생");
+//   }
+//   // 실제 서버로 댓글을 전송하는 로직 추가해야됨!
+//   setComment("");
+// };
+
+// const handleEditComment = (id, editedComment) => {
+//   setComments((prevComments) => {
+//     return prevComments.map((comment, i) =>
+//       i === id ? { ...comment, text: editedComment } : comment,
+//     );
+//   });
+// };
+
+// const handleDeleteComment = (id) => {
+//   const updatedComments = [...comments];
+//   updatedComments.splice(id, 1);
+//   setComments(updatedComments);
+// };

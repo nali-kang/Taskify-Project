@@ -85,7 +85,10 @@ const ColumnList = ({ id, title, columnRequest }) => {
         isOpen={isCardModal}
         closeModal={closeCardModal}
         setCardList={setCardList}
+        dashboardId={dashboardid}
+        columnId={id}
         {...modalInfo}
+        imageUrl="https://pbs.twimg.com/media/FxgjlrvacAUMVgH.jpg:large"
       />
       <ColumnTitle color="#333333">
         <div className="title_area">
