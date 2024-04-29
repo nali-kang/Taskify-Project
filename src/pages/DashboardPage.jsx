@@ -12,6 +12,7 @@ const DashboardPage = () => {
     requestPath: '/columns',
     queryKey: ['column', dashboardid],
   });
+
   const [isModalOpen, openModal, closeModal] = useBooleanState();
 
   const {
@@ -57,7 +58,7 @@ const DashboardPage = () => {
         closeModal={closeModal}
       />
       {data?.data?.map((e) => {
-        return <ColumnList key={e.id} {...e} />;
+        return <ColumnList key={e.id} columnRequest={request} {...e} />;
       })}
       <NewColumnButton>
         <button

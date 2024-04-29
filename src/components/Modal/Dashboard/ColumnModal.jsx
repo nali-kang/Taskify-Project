@@ -1,14 +1,31 @@
 import { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import { useMutationRequest } from '../../../hooks/useRequest';
 import BaseModal from '../../common/Modal';
 
 const ColumnModal = ({ modalInfo, isModalOpen, onSuccess, closeModal }) => {
   // modal setting
   const [modalInput, setModalInput] = useState(modalInfo?.title ?? '');
 
+  const { request, isSuccess, isError, error } = useMutationRequest({
+    requestPath: `/columns/${modalInfo.id}`,
+    queryKey: ['column', 'delete', modalInfo],
+    method: 'DELETE',
+  });
+
   useEffect(() => {
     setModalInput(modalInfo?.title ?? '');
   }, [modalInfo]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      alert('컬럼을 삭제했습니다.');
+      closeModal();
+    }
+    if (isError) {
+      alert(error?.response?.data?.message ?? '오류가 발생했습니다.');
+    }
+  }, [isSuccess, isError]);
 
   return (
     <BaseModal isOpen={isModalOpen}>
@@ -18,25 +35,40 @@ const ColumnModal = ({ modalInfo, isModalOpen, onSuccess, closeModal }) => {
           <strong>이름</strong>
           <input onChange={(e) => setModalInput(e.target.value)} value={modalInput} />
         </InputArea>
-        <ButtonArea>
-          <button
-            className="cancel_button"
-            onClick={() => {
-              //   setModalInput('');
-              closeModal();
-            }}
-          >
-            취소
-          </button>
-          <button
-            className="invite_button"
-            onClick={() => {
-              onSuccess(modalInput);
-            }}
-          >
-            {modalInfo?.id ? '변경' : '생성'}
-          </button>
-        </ButtonArea>
+        <BottomLayer between={modalInfo?.id ? true : false}>
+          {modalInfo?.id ? (
+            <button
+              className="delete_button"
+              onClick={() => {
+                request();
+              }}
+            >
+              삭제하기
+            </button>
+          ) : (
+            <></>
+          )}
+
+          <ButtonArea>
+            <button
+              className="cancel_button"
+              onClick={() => {
+                //   setModalInput('');
+                closeModal();
+              }}
+            >
+              취소
+            </button>
+            <button
+              className="invite_button"
+              onClick={() => {
+                onSuccess(modalInput);
+              }}
+            >
+              {modalInfo?.id ? '변경' : '생성'}
+            </button>
+          </ButtonArea>
+        </BottomLayer>
       </Container>
     </BaseModal>
   );
@@ -126,13 +158,41 @@ const buttonLayout = css`
     font-size: 0.875rem;
   }
 `;
+
+const BottomLayer = styled.article`
+  display: flex;
+  justify-content: ${(props) => (props.between ? 'space-between' : 'flex-end')};
+  align-items: center;
+  @media (max-width: 743px) {
+    margin-top: ${(props) => (props.between ? '-1.125rem' : '1.5rem')};
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.625rem;
+  }
+  .delete_button {
+    background-color: transparent;
+    padding: 0;
+    color: var(--gray-gray_9FA6B2, #9fa6b2);
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration-line: underline;
+    &:focus-visible,
+    &:focus,
+    &:hover {
+      outline: none;
+      border-color: transparent;
+    }
+  }
+`;
 const ButtonArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
   gap: 0.75rem;
   @media (max-width: 743px) {
-    margin-top: 1.5rem;
     gap: 0.69rem;
   }
   .cancel_button {
