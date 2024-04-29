@@ -4,15 +4,49 @@ import InputField from './Input';
 import Button from '../common/Button';
 import { BUTTON_TYPE } from '../../constants/BUTTON_TYPE';
 import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
+import { useEffect, useState } from 'react';
+import { useProfile } from '../../hooks/Profile/useProfile';
+import { useProfileImgUpload } from '../../hooks/Profile/useProfileImgUpload';
+import useProfileEdit from '../../hooks/Profile/useProfileEdit';
 
-const ProfileModify = ({ name }) => {
+const ProfileModify = () => {
+  // 프로필 데이터 불러오기
+  const { data: profileData, isSuccess } = useProfile();
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+
+  // 프로필 편집
+  const profileEdit = useProfileEdit();
+  const profileImgUpload = useProfileImgUpload();
+
+  // API
+  useEffect(() => {
+    if (isSuccess && profileData) {
+      setEmail(profileData.data.email);
+      setNickname(profileData.data.nickname);
+    }
+  }, [profileData, isSuccess]);
+
+  // 프로필 업데이트 처리
+  const handleProfileUpdate = () => {
+    profileEdit.mutate({
+      nickname: nickname,
+      profileImgUrl: '',
+    });
+  };
+
+  // 이미지 업로드
+  const handleImgUpload = (file) => {
+    profileImgUpload.mutate(file);
+  };
+
   return (
     <Div>
       <Title>프로필</Title>
       <AlignBox>
         <ImgBox>
           <ImgContent>
-            <ImgUpload edit={false} small={false} />
+            <ImgUpload edit={true} small={false} onUpload={handleImgUpload} />
           </ImgContent>
         </ImgBox>
 
@@ -20,18 +54,30 @@ const ProfileModify = ({ name }) => {
           <EmailInput>
             <InputField
               label="이메일"
-              id="input"
+              id="email-input"
               type="email"
-              placeholder="이메일을 입력해주세요"
+              value={email || '이메일 불러오는 중...'}
+              readOnly
             />
           </EmailInput>
           <NameInput>
-            <InputField label="닉네임" id="input" type="text" placeholder={name} />
+            <InputField
+              label="닉네임"
+              id="nickname-input"
+              type="text"
+              value={nickname || '닉네임 불러오는 중...'}
+              onChange={(e) => setNickname(e.target.value)}
+            />
           </NameInput>
         </InputBox>
       </AlignBox>
 
-      <StorageBtn size="L" styleType={BUTTON_TYPE.PRIMARY} style={{ width: '4rem' }}>
+      <StorageBtn
+        size="L"
+        styleType={BUTTON_TYPE.PRIMARY}
+        style={{ width: '4rem' }}
+        onClick={handleProfileUpdate}
+      >
         저장
       </StorageBtn>
     </Div>
