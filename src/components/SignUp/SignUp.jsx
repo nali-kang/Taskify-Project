@@ -20,7 +20,6 @@ function SignUp() {
   const {
     formState: { errors },
     register,
-    getValues,
     handleSubmit,
   } = useForm({
     mode: 'all',
@@ -130,23 +129,14 @@ function SignUp() {
           />
           <AuthInput
             label="비밀번호확인"
-            placeholder="비밀번호 확인을 한번 더 입력해 주세요"
+            placeholder="비밀번호를 한번 더 입력해 주세요"
             data="pwd"
             error={errors.confirmPassword?.message}
             {...register('confirmPassword', {
-              required: '비밀번호 확인을 한번 더 입력해 주세요',
+              required: '비밀번호를 한번 더 입력해 주세요',
               minLength: {
                 value: PASSWORD_MIN_LENGTH,
-                message: '비밀번호 확인은 8자 이상 입력해주세요.',
-              },
-              validate: {
-                passwordAndPasswordConfirmDifferent: (confirmPassword) => {
-                  const { password } = getValues();
-
-                  if (confirmPassword !== password) {
-                    return '비밀번호가 일치하지 않습니다.';
-                  }
-                },
+                message: '비밀번호가 일치해야 합니다.',
               },
             })}
           />

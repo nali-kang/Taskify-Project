@@ -9,7 +9,6 @@ import useBooleanState from '../../hooks/useBooleanState';
 import axios from '../../lib/axios';
 import useUserStore from '../../store/userStore';
 import { Link, useNavigate } from 'react-router-dom';
-import big_logo from '@images/largeLogo.svg';
 
 const PASSWORD_MIN_LENGTH = 8;
 
@@ -72,8 +71,7 @@ function SignIn() {
           <S.logoWrap>
             <S.logo>
               <Link to="/">
-                <img src={big_logo} />
-                {/* <img src="src/assets/images/largeLogo.svg" alt="랜딩 페이지로 이동하려면 클릭" /> */}
+                <img src="src/assets/images/largeLogo.svg" alt="랜딩 페이지로 이동하려면 클릭" />
               </Link>
             </S.logo>
             <p>오늘도 만나서 반가워요!</p>
