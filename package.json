@@ -13,10 +13,20 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@esbuild/darwin-arm64": "^0.20.2",
+    "@tanstack/react-query": "^5.29.2",
+    "axios": "^1.6.8",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.3",
+    "react-router-dom": "^6.22.3",
+    "styled-components": "^6.1.8",
+    "styled-normalize": "^8.1.0",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@svgr/rollup": "^8.1.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
@@ -33,5 +43,8 @@
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "vite": "^5.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "eslint --fix"
   }
 }
