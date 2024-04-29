@@ -5,6 +5,9 @@ import SettingContents from '@components/MainPage/SettingContents';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import point1_image from '@images/main/resource/point1_image.png';
+import point2_image from '@images/main/resource/point2_image.png';
+
 const MainPage = () => {
   const navigator = useNavigate();
   useEffect(() => {
@@ -18,13 +21,13 @@ const MainPage = () => {
       <PointContents
         title="Point 1"
         text={`일의 우선순위를\n관리하세요`}
-        src="/src/assets/images/main/resource/point1_image.png"
+        src={point1_image}
         index={1}
       />
       <PointContents
         title="Point 2"
         text={`해야 할 일을\n등록하세요`}
-        src="/src/assets/images/main/resource/point2_image.png"
+        src={point2_image}
         index={2}
       />
       <SettingContents />
