@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { COLOR_LIST } from '@constants/constants';
+import check_icon from '@icon/check_icon.svg';
 
 const SelectColorButton = ({ color, setColor }) => {
   return (
@@ -7,7 +8,7 @@ const SelectColorButton = ({ color, setColor }) => {
       {COLOR_LIST.map((e) => {
         return (
           <ColorButton color={e} key={e} onClick={() => setColor(e)}>
-            {color === e ? <img src="/src/assets/icon/check_icon.svg" /> : <></>}
+            {color === e ? <img src={check_icon} /> : <></>}
           </ColorButton>
         );
       })}

@@ -7,6 +7,9 @@ import ColumnModal from '../Modal/Dashboard/ColumnModal';
 import useBooleanState from '../../hooks/useBooleanState';
 import ToDoModal from '../Modal/ToDoModal/ShowToDo/ToDoModal';
 import { useParams } from 'react-router-dom';
+import setting_icon from '@icon/setting_icon.svg';
+import add_icon from '@icon/dashboard_add_icon.svg';
+import calendar_icon from '@icon/calendar_icon.png';
 
 const ColumnList = ({ id, title, columnRequest }) => {
   const [cardList, setCardList] = useState([]);
@@ -91,12 +94,12 @@ const ColumnList = ({ id, title, columnRequest }) => {
             openModal();
           }}
         >
-          <img src="/src/assets/icon/setting_icon.svg" />
+          <img src={setting_icon} />
         </button>
       </ColumnTitle>
       <CardList>
         <button className="card_default new_card">
-          <img src="/src/assets/icon/dashboard_add_icon.svg" />
+          <img src={add_icon} />
         </button>
         {cardList?.map((e) => {
           return (
@@ -121,7 +124,7 @@ const ColumnList = ({ id, title, columnRequest }) => {
               </TagList>
               <div className="card_info">
                 <p className="date">
-                  <img src="/src/assets/icon/calendar_icon.png" />
+                  <img src={calendar_icon} />
                   {e.dueDate}
                 </p>
                 <UserCircle color={hexColorEncode(e.assignee.nickname)}>

@@ -8,6 +8,9 @@ import { useGetRequest } from '../../hooks/useRequest';
 import PaginationArrow from '../common/PaginationArrow';
 import AddDashboardModal from '../Modal/Dashboard/AddDashboardModal';
 
+import add_box_icon from '@icon/add_box.png';
+import crown_icon from '@icon/crown_icon.svg';
+
 const DASHBOARD_SIZE = 10;
 
 const Sidebar = () => {
@@ -39,7 +42,7 @@ const Sidebar = () => {
       <DashboardList>
         <ItemDiv className="add_dashboard" onClick={openModal}>
           <AddText>Dash Boards</AddText>
-          <img className="add_dashboard_button" src="/src/assets/icon/add_box.png" />
+          <img className="add_dashboard_button" src={add_box_icon} />
         </ItemDiv>
         {data?.dashboards?.map((dashboard) => (
           <ItemDiv
@@ -51,7 +54,7 @@ const Sidebar = () => {
             <Item $active={dashboard.id === Number(dashboardid)}>
               <span>{dashboard.title}</span>
               {dashboard.createdByMe && (
-                <img className="crown" src="/src/assets/icon/crown_icon.svg" alt="created by me" />
+                <img className="crown" src={crown_icon} alt="created by me" />
               )}
             </Item>
           </ItemDiv>

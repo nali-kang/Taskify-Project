@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import email_icon from '@icon/email_icon.png';
+import facebook_icon from '@icon/facebook_icon.png';
+import instagram_icon from '@icon/instagram_icon.png';
 
 const MainFooter = () => {
   return (
@@ -11,13 +14,13 @@ const MainFooter = () => {
       </div>
       <div className="footer_shared">
         <Link to={'https://mail.google.com/'} target="_blank">
-          <img src="/src/assets/icon/email_icon.png" />
+          <img src={email_icon} />
         </Link>
         <Link to={'https://www.facebook.com/'} target="_blank">
-          <img src="/src/assets/icon/facebook_icon.png" />
+          <img src={facebook_icon} />
         </Link>
         <Link to={'https://www.instagram.com/'} target="_blank">
-          <img src="/src/assets/icon/instagram_icon.png" />
+          <img src={instagram_icon} />
         </Link>
       </div>
     </FooterContainer>

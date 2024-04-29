@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import desktop_img from '@images/main/desktop.png';
 
 const LandingContents = () => {
   return (
     <TitleContents>
-      <img src="/src/assets/images/main/desktop.png" />
+      <img src={desktop_img} />
       <TitleTextDiv>
         <strong className="main-text">새로운 일정 관리</strong>
         <span className="taskify-text">Taskify</span>

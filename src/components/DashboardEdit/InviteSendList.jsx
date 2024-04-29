@@ -5,6 +5,7 @@ import { useGetRequest, useMutationRequest } from '../../hooks/useRequest';
 import ListTable, { DeleteButton } from '../common/ListTable';
 import PaginationArrow from '../common/PaginationArrow';
 import InviteMemberModal from '../Modal/Dashboard/InviteMemberModal';
+import add_box_icon from '@icon/add_box.svg';
 
 const INVITE_SEND_LIST = 5;
 
@@ -96,7 +97,7 @@ const InviteSendList = ({ id }) => {
             showPageInfo={true}
           />
           <button className="invite_button" onClick={openModal}>
-            <img src="/src/assets/icon/add_box.svg" />
+            <img src={add_box_icon} />
             <span>초대하기</span>
           </button>
         </div>

@@ -7,6 +7,9 @@ import PaginationArrow from '@components/common/PaginationArrow';
 import useBooleanState from '../../hooks/useBooleanState';
 import AddDashboardModal from '../Modal/Dashboard/AddDashboardModal';
 
+import add_icon from '@icon/dashboard_add_icon.svg';
+import crown_icon from '@icon/crown_icon.svg';
+
 const DASHBOARD_SIZE = 5;
 
 const DashboardList = () => {
@@ -32,7 +35,7 @@ const DashboardList = () => {
       <AddDashboardModal isModalOpen={isModalOpen} closeModal={closeModal} />
       <DashboardArticle>
         <DashboardCard className="new_card" onClick={openModal}>
-          새로운 대시보드 <img src="/src/assets/icon/dashboard_add_icon.svg" />
+          새로운 대시보드 <img src={add_icon} />
         </DashboardCard>
         {data?.dashboards !== null && data?.dashboards !== undefined ? (
           data.dashboards?.map((e, i) => {
@@ -48,11 +51,7 @@ const DashboardList = () => {
                 <p className="dashboard_title">
                   <img className="dot" />
                   <span>{e.title}</span>
-                  {e.createdByMe ? (
-                    <img className="crown" src="/src/assets/icon/crown_icon.svg" />
-                  ) : (
-                    <></>
-                  )}
+                  {e.createdByMe ? <img className="crown" src={crown_icon} /> : <></>}
                 </p>
                 <ArrowRight fill={'black'} />
               </DashboardCard>
