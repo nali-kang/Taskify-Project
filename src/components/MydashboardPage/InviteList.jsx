@@ -60,7 +60,6 @@ const InviteList = () => {
     if (data?.pages.length > 0) {
       setInviteList([...inviteList, ...data.pages[data.pages.length - 1].invitations]);
     }
-    data?.pages?.invitations;
   }, [data]);
 
   const {
@@ -76,6 +75,10 @@ const InviteList = () => {
 
   useEffect(() => {
     fetchNextPage();
+    return () => {
+      setInviteList([]);
+      queryClient.resetQueries({ queryKey: ['invitations', ''], exact: true });
+    };
   }, []);
 
   useEffect(() => {
@@ -138,6 +141,7 @@ const InviteContainer = styled.section`
     font-weight: 700;
     line-height: normal;
     padding: 2rem 1.75rem 1.25rem;
+    margin: 0;
     @media (max-width: 743px) {
       font-size: 1.25rem;
       padding: 1.5rem 1rem 1.25rem;
@@ -216,6 +220,7 @@ const InviteButton = css`
 const InviteAcceptedButton = styled.div`
   display: flex;
   gap: 0.5rem;
+  padding-right: 0.75rem;
 
   .accept_button {
     ${InviteButton};
