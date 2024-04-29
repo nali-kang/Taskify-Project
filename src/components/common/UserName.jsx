@@ -5,13 +5,13 @@ import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
 const UserName = ({ nickname, img, nameHidden = false }) => {
   const firstChar = typeof nickname === 'string' ? nickname.slice(0, 1).toUpperCase() : '';
   return (
-    <NameContents color={hexColorEncode(nickname)} nameHidden={nameHidden}>
+    <NameContents color={hexColorEncode(nickname)}>
       {img ? (
         <ProfileImg src={img} alt="프로필 이미지" />
       ) : (
         <div className="img_circle">{firstChar}</div>
       )}
-      <span className="nickname_text">{nickname}</span>
+      {!nameHidden && <span className="nickname_text">{nickname}</span>}
     </NameContents>
   );
 };
@@ -59,7 +59,7 @@ const NameContents = styled.div`
     font-size: 1rem;
     font-weight: 400;
     ${MEDIA_QUERIES.onMobile} {
-      display: ${(props) => (props.nameHidden ? 'none' : 'block')};
+      display: 'block';
       font-size: 0.875rem;
     }
   }
