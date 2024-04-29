@@ -12,7 +12,7 @@ import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import MydashboardPage from './pages/MydashboardPage';
 import MyPage from './pages/MyPage';
-import SignupPage from './pages/SignupPage';
+import SignUpPage from './pages/SignupPage';
 import ModalPage from './pages/ModalPage';
 
 export const queryClient = new QueryClient();
@@ -28,7 +28,7 @@ function App() {
               <Route index element={<MainPage />} />
             </Route>
             <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<SignupPage />} />
+            <Route path="signup" element={<SignUpPage />} />
             <Route element={<BaseLayout />}>
               <Route path="mydashboard" element={<MydashboardPage />} />
               <Route path="dashboard/:dashboardid">
