@@ -27,7 +27,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     request({ navigationMethod: 'pagination', page, size: DASHBOARD_SIZE });
-  }, [page]);
+  }, [page, isModalOpen, navigate]);
 
   // eslint-disable-next-line no-unused-vars
   const handleDashboardClick = (dashboardId) => navigate(`/dashboard/${dashboardId}`);
