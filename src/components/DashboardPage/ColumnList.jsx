@@ -6,12 +6,14 @@ import { queryClient } from '../../App';
 import ColumnModal from '../Modal/Dashboard/ColumnModal';
 import useBooleanState from '../../hooks/useBooleanState';
 import ToDoModal from '../Modal/ToDoModal/ShowToDo/ToDoModal';
+import { useParams } from 'react-router-dom';
 
-const ColumnList = ({ id, title }) => {
+const ColumnList = ({ id, title, columnRequest }) => {
   const [cardList, setCardList] = useState([]);
   const [isModalOpen, openModal, closeModal] = useBooleanState();
   const [isCardModal, openCardModal, closeCardModal] = useBooleanState();
   const [modalInfo, setModalInfo] = useState({});
+  const { dashboardid } = useParams();
 
   const { data, fetchNextPage, setTarget } = useInfinityRequest({
     queryKey: ['cards', id],
@@ -61,6 +63,10 @@ const ColumnList = ({ id, title }) => {
       setCardList([...cardList, ...data.pages[data.pages.length - 1].cards]);
     }
   }, [data]);
+
+  useEffect(() => {
+    columnRequest({ dashboardId: dashboardid });
+  }, [isModalOpen]);
 
   return (
     <ColumnContainer>
@@ -215,7 +221,7 @@ const ColumnTitle = styled.div`
     &:focus,
     &:hover {
       outline: none;
-      border: none;
+      border-color: transparent;
     }
   }
 `;
