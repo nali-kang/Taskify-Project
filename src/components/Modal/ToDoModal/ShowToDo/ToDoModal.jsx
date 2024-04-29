@@ -10,6 +10,9 @@ import useBooleanState from '../../../../hooks/useBooleanState';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import instance from '../../../../lib/axios';
 
+import dot_icon from '@icon/3dot.svg';
+import close_icon from '@icon/closeX.svg';
+
 const ToDoModal = ({
   id,
   dashboardId,
@@ -166,10 +169,10 @@ const ToDoModal = ({
               <h1>{title}</h1>
               <div className="button_area">
                 <button className="modal_button" onClick={toggleTodoModalOption}>
-                  <img src="/src/assets/icon/3dot.svg" />
+                  <img src={dot_icon} />
                 </button>
                 <button className="modal_button" onClick={closeModal}>
-                  <img src="/src/assets/icon/closeX.svg" />
+                  <img src={close_icon} />
                 </button>
                 {isOpenTodoModalOption && (
                   <ToDoModalOption onClickModify={startEdit} onClickDelete={handleClickDelete} />
