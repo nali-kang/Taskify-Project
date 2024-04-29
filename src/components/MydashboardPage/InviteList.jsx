@@ -4,6 +4,8 @@ import { useInfinityRequest, useMutationRequest } from '@hooks/useRequest';
 import ListTable from '../common/ListTable';
 import { queryClient } from '../../App';
 
+import search_icon from '@icon/search_icon.svg';
+
 const DEFAULT_INVITE_LIST_SIZE = 7;
 
 const InviteList = () => {
@@ -96,7 +98,7 @@ const InviteList = () => {
     <InviteContainer>
       <h1 className="invite_title">초대받은 대시보드</h1>
       <div className="invite_search_box">
-        <img src="/src/assets/icon/search_icon.svg" />
+        <img src={search_icon} />
         <input
           className="invite_search"
           placeholder="검색"

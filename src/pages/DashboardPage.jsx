@@ -6,6 +6,8 @@ import { useCallback, useEffect } from 'react';
 import useBooleanState from '../hooks/useBooleanState';
 import ColumnModal from '../components/Modal/Dashboard/ColumnModal';
 
+import add_icon from '@icon/dashboard_add_icon.svg';
+
 const DashboardPage = () => {
   const { dashboardid } = useParams();
   const { data, request } = useGetRequest({
@@ -68,7 +70,7 @@ const DashboardPage = () => {
           }}
         >
           새로운 컬럼 추가하기
-          <img src="/src/assets/icon/dashboard_add_icon.svg" />
+          <img src={add_icon} />
         </button>
       </NewColumnButton>
     </DashboardContainer>

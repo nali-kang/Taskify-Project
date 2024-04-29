@@ -7,6 +7,7 @@ import { BUTTON_TYPE } from '../../constants/BUTTON_TYPE';
 import MEDIA_QUERIES from '../../constants/MEDIA_QUERIES';
 import setting_icon from '../../assets/icon/setting_icon.png';
 import invite_icon from '../../assets/icon/invite_icon.png';
+import crown_icon from '@icon/crown_icon.svg';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useMemo } from 'react';
 import UserName from './UserName';
@@ -101,7 +102,7 @@ const Header = () => {
           <MenuDiv dashboard>
             <span>{dashboardInfo?.title}</span>
             {dashboardInfo?.createdByMe && (
-              <img className="crown" src="/src/assets/icon/crown_icon.svg" alt="created by me" />
+              <img className="crown" src={crown_icon} alt="created by me" />
             )}
           </MenuDiv>
           <ProfileDiv>

@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import setting1_image from '@images/main/resource/setting1_image.png';
+import setting2_image from '@images/main/resource/setting2_image.png';
+import setting3_image from '@images/main/resource/setting3_image.png';
 
 const SettingContents = () => {
   return (
@@ -7,7 +10,7 @@ const SettingContents = () => {
       <ImageContainer>
         <ImageCard>
           <div className="image_section">
-            <img src="/src/assets/images/main/resource/setting1_image.png" />
+            <img src={setting1_image} />
           </div>
           <div className="text_section">
             <h3>대시보드 설정</h3>
@@ -16,7 +19,7 @@ const SettingContents = () => {
         </ImageCard>
         <ImageCard>
           <div className="image_section">
-            <img src="/src/assets/images/main/resource/setting2_image.png" />
+            <img src={setting2_image} />
           </div>
           <div className="text_section">
             <h3>초대</h3>
@@ -25,7 +28,7 @@ const SettingContents = () => {
         </ImageCard>
         <ImageCard>
           <div className="image_section">
-            <img src="/src/assets/images/main/resource/setting3_image.png" />
+            <img src={setting3_image} />
           </div>
           <div className="text_section">
             <h3>구성원</h3>
